@@ -18,9 +18,19 @@
                         <span class="product__price product__price--old fs-6 ">
                             {{ $book->price }}.00 جنيه
                         </span>
+                        <div style="color:#ff0000">
+                            <h4>{{ $book->offer }}%</h4>
+                        </div>
                         <span class="product__price fs-5">
                             {{ $book->price_after_offer ? $book->price_after_offer : $book->price }}.00 جنيه
                         </span>
+                    </div>
+
+
+                    <div style="color:#ff0000">
+                        @if ($book->quantity < 6)
+                            متبقي {{ $book->quantity }} فقط اطلبه الآن
+                        @endif
                     </div>
 
                     <div class="d-flex w-100 gap-2 mb-3">
@@ -36,7 +46,7 @@
                     </div>
 
                     <div class="single-product__favourite d-flex align-items-center gap-2 mb-4">
-                        <a href="{{ route('fav.store', $book->id) }}"><i class="fa-regular fa-heart" ></i></a>
+                        <a href="{{ route('fav.store', $book->id) }}"><i class="fa-regular fa-heart"></i></a>
                         اضافة للمفضلة
                     </div>
                 </div>

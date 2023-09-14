@@ -4,7 +4,7 @@
             "progessBar": true,
             "closeButton": true,
         }
-        toastr.success("{{ session()->get('success') }}", '!success', {
+        toastr.success("{{ session()->get('success') }}", '!ناجح', {
             timeOut: 12000
         });
     </script>
@@ -15,7 +15,7 @@
             "progessBar": true,
             "closeButton": true,
         }
-        toastr.error("{{ session()->get('error') }}", '!error', {
+        toastr.error("{{ session()->get('error') }}", '!خطأ', {
             timeOut: 12000
         });
     </script>

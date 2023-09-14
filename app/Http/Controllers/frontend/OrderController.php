@@ -22,7 +22,8 @@ class OrderController extends Controller
 
     public function store(StoreCheckRequest $request)
     {
-      $number_order=rand ( 10000 , 99999 );
+        $number_order=rand ( 10000 , 99999 );
+        session()->put('number_order', $number_order);
         $user_id=Auth::user()->id;
         $order=Card::select('book_id','quantity','user_id','id')->where('user_id',$user_id)->get();
         foreach($order as $orders)
@@ -34,11 +35,19 @@ class OrderController extends Controller
             $data['quantity']=$orders->quantity;
             $data['created_at'] = now();
             DB::table('orders')->insert($data);
-           DB::table('cards')->where('id',$orders->id)->delete();
+            DB::table('cards')->where('id',$orders->id)->delete();
+
+            $new_quantity_book_id =  ($orders->book->quantity) - ($orders->quantity) ;
+            DB::table('books')->where('id', $orders->book_id)->update(['quantity' => $new_quantity_book_id ]);
         }
+        return redirect()->route('order.detail');
+    }
+    public function detail()
+    {
+        $number_order =  session()->get('number_order');
         $order=Order::select('book_id','quantity','created_at','number_order')->where('number_order',$number_order)->get();
         $user = DB::table('orders')->select('fname','lname','email','phone','city','address')->where('number_order', $number_order)->distinct()->first();
-        return view('frontend.order-recieved.index', compact('order','user'));
+        return view('frontend.order-recieved.index' , compact('order','user') );
     }
     public function show()
     {
@@ -60,8 +69,20 @@ class OrderController extends Controller
     }
     public function data_search(StoreSearchRequest $request)
     {
-    $order=Order::select('book_id','quantity','created_at','number_order')->where('number_order',$request->number_order)->where('email',$request->email)->get();
-    $user = DB::table('orders')->select('fname','lname','email','phone','city','address')->where('number_order',$request->number_order)->where('email',$request->email)->distinct()->first();
-    return view('frontend.order-details.index', compact('order','user'));
+       $order=Order::select('book_id','quantity','created_at','number_order')->where('number_order',$request->number_order)->where('email',$request->email)->get();
+      $user = DB::table('orders')->select('fname','lname','email','phone','city','address','number_order')->where('number_order',$request->number_order)->where('email',$request->email)->distinct()->first();
+    if(!empty($order) && !empty($user))
+    {
+        return view('frontend.order-details.index', compact('order','user'));
+    }
+    else
+    {
+        return redirect()->back()->with('error','خطا في ادخال البيانات');
+    }
+    }
+
+    public function edit_address($number_order)
+    {
+        echo $number_order;
     }
 }

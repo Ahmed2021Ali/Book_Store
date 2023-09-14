@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\frontend;
 
+use App\Models\Book;
 use App\Models\Card;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -22,17 +23,32 @@ public function AddCard(Request $request,$id)
             $query->where('user_id',$user_id)
                 ->where('book_id',$book_id);
          })->first();
+         $quantity_book=Book::select('quantity')->where('id',$book_id)->first();
 
         if(isset($cards->book_id))
         {
             $cards->quantity += $quantity;
-            $cards->save();
+            if($cards->quantity > $cards->book->quantity)
+            {
+                return redirect()->back()->with('error','الكمية غير متوفره');
+            }
+            else
+            {
+                $cards->save();
+            }
         }
         else
         {
-            DB::table('cards')->insert(
-                ['user_id' => $user_id, 'book_id' =>$book_id,'quantity'=>$quantity]
-            );
+            if($quantity > $quantity_book->quantity)
+            {
+                return redirect()->back()->with('error','الكمية غير متوفره');
+            }
+            else
+            {
+                DB::table('cards')->insert(
+                    ['user_id' => $user_id, 'book_id' =>$book_id,'quantity'=>$quantity]
+                );
+            }
         }
         return redirect()->back()->with('success','تم بنجاح اضافة الكتاب الي عربة التسويق الخاص بك');
     }

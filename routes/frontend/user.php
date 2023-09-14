@@ -28,7 +28,7 @@ Route::controller(HomepageController::class)->prefix('HomePage')->group(function
         Route::get('/ShowBooks/{encryptedId}','show_book')->name('show_book');
 
         Route::get('/SingleBooks/{encryptedId}','single_book')->name('single_book');
-        
+
         Route::get('/branches','branches')->name('branches');
         Route::get('/about_us','about_us')->name('about_us');
         Route::get('/contact_us','contact_us')->name('contact_us');
@@ -48,10 +48,12 @@ Route::middleware(['auth'])->prefix('HomePage')->group(function () {
     Route::controller(OrderController::class)->as('order.')->group(function(){
         Route::get('order/create','create')->name('create');
         Route::post('order/store','store')->name('store');
+        Route::get('order/detail','detail')->name('detail');
         Route::get('order/show','show')->name('show');
         Route::delete('order/destroy/{id}','destroy')->name('destroy');
         Route::get('order/search','search')->name('search');
         Route::post('order/data_search','data_search')->name('data_search');
+        Route::get('order/edit_address/{number_order}','edit_address')->name('edit.address');
     });
 
     Route::controller(FavController::class)->as('fav.')->group(function(){

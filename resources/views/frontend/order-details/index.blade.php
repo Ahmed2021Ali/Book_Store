@@ -60,13 +60,14 @@ $total_price_after_offer = 0;
             <section class="section-container mb-5">
                 <h2>عنوان الفاتورة</h2>
                 <div class="border p-3 rounded-3">
-                    <p class="mb-1">{{ $user->fname }} {{ $user->lname }} </p>
-                    <p class="mb-1">{{ $user->address }}  </p>
-                    <p class="mb-1">{{ $user->city }}</p>
-                    <p class="mb-1">{{ $user->phone }}</p>
-                    <p class="mb-1">{{ $user->email }}</p>
+                    <p class="mb-1"> الاسم : {{ $user->fname }} {{ $user->lname }} </p>
+                    <p class="mb-1">  العنوان : {{ $user->address }}  </p>
+                    <p class="mb-1"> المحافظة : {{ $user->city }}</p>
+                    <p class="mb-1"> الرقم التواصل : {{ $user->phone }}</p>
+                    <p class="mb-1"> الاميل  {{ $user->email }}</p>
                 </div>
-
+                <br>
+              <a href="{{ route('order.edit.address',$user->number_order) }}" ><button type=b"utton" class="btn btn-danger">تعديل العنوان </button></a>
             </section>
         </section>
     </main>

@@ -1,5 +1,5 @@
 @extends('frontend.layouts.master')
-
+@section('title','اتمام الطلب');
 @section('content_page')
     <main>
         <?php
