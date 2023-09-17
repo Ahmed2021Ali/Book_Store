@@ -8,6 +8,7 @@
   <link rel="icon" href="{{url('assets/images/logo.png')}}" type="image/x-icon"/>
   <link rel="stylesheet" href="{{url('assets/css/vendors/all.min.css')}}">
   <link rel="stylesheet" href="{{url('assets/css/vendors/bootstrap.rtl.min.css')}}">
+  <link rel="icon" type="image/x-icon" href="{{ url('assets/images/favicon.ico') }}">
   <link rel="stylesheet" href="{{url('assets/css/vendors/owl.carousel.min.css')}}">
   <link rel="stylesheet" href="{{url('assets/css/vendors/owl.theme.default.min.css')}}">
   <link rel="stylesheet" href="{{url('assets/css/main.min.css')}}">

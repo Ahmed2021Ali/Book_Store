@@ -63,4 +63,3 @@ Route::middleware(['auth'])->prefix('HomePage')->group(function () {
 
     });
 });
-

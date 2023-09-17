@@ -184,9 +184,10 @@
             </div>
             <div class="row">
                 @foreach ($category_books as $book)
+                <?php $encryptedId = Crypt::encrypt($book->id) ?>
                     <div class="products__item col-6 col-md-4 col-lg-3 mb-5">
                         <div class="product__header mb-3">
-                            <a href="{{ route('single_book', $book->id) }}">
+                            <a href="{{ route('single_book', $encryptedId) }}">
                                 <div class="product__img-cont">
                                     <img class="product__img w-100 h-100 object-fit-cover"
                                         src="\assets\images\book\{{ $book->image }}" data-id="white" />
@@ -202,7 +203,7 @@
                             </div>
                         </div>
                         <div class="product__title text-center">
-                            <a class="text-black text-decoration-none" href="{{ route('single_book', $book->id) }}">
+                            <a class="text-black text-decoration-none" href="{{ route('single_book', $encryptedId) }}">
                                 {{ $book->title }}
                             </a>
                         </div>

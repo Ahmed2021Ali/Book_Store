@@ -54,37 +54,5 @@
             <x-me.count-component/>
         </ul>
     </div>
-    {{--      <div class="nav-mobile fixed-bottom d-block d-lg-none">
-        <ul class="nav-mobile__list d-flex justify-content-around gap-2 list-unstyled  m-0 border-top">
-            <li class="nav-mobile__link">
-                <a class="d-flex align-items-center flex-column gap-1 text-decoration-none" href="index.html">
-                    <i class="fa-solid fa-house"></i>
-                    الرئيسية
-                </a>
-            </li>
-            <li class="nav-mobile__link d-flex align-items-center flex-column gap-1" data-bs-toggle="offcanvas"
-                data-bs-target="#nav__categories">
-                <i class="fa-solid fa-align-center fa-rotate-180"></i>
-                الاقسام
-            </li>
-            <li class="nav-mobile__link d-flex align-items-center flex-column gap-1">
-                <a class="d-flex align-items-center flex-column gap-1 text-decoration-none" href="profile.html">
-                    <i class="fa-regular fa-user"></i>
-                    حسابي
-                </a>
-            </li>
-            <li class="nav-mobile__link d-flex align-items-center flex-column gap-1">
-                <a class="d-flex align-items-center flex-column gap-1 text-decoration-none" href="favourites.html">
-                    <i class="fa-regular fa-heart"></i>
-                    المفضلة
-                </a>
-            </li>
-            <li class="nav-mobile__link d-flex align-items-center flex-column gap-1" data-bs-toggle="offcanvas"
-                data-bs-target="#nav__cart">
-                <i class="fa-solid fa-cart-shopping"></i>
-                السلة
-            </li>
-        </ul>
-        <!--  -->
-    </div>  --}}
+
 </nav>
