@@ -18,7 +18,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books=Book::select('id','title','author_name','price','price_after_offer','status','image','category_id')->with('category')->paginate(4);
+        $books=Book::select('id','title','author_name','price','price_after_offer','status','image','category_id','quantity')->with('category')->paginate(4);
         return view('backend.books.index',compact('books'));
     }
 

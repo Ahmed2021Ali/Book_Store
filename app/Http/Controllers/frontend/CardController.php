@@ -17,15 +17,15 @@ public function AddCard(Request $request,$id)
     $quantity=$request->quantity;
     $user_id=Auth::user()->id;
     $book_id=$id;
+
     if( $quantity > 0 )
     {
         $cards = Card::select('book_id','quantity','id')->where(function ($query) use ($user_id,$book_id)  {
-            $query->where('user_id',$user_id)
-                ->where('book_id',$book_id);
+            $query->where('user_id',$user_id)->where('book_id',$book_id)->where('status','penning');
          })->first();
          $quantity_book=Book::select('quantity')->where('id',$book_id)->first();
 
-        if(isset($cards->book_id))
+        if($cards)
         {
             $cards->quantity += $quantity;
             if($cards->quantity > $cards->book->quantity)
@@ -35,6 +35,8 @@ public function AddCard(Request $request,$id)
             else
             {
                 $cards->save();
+                return redirect()->back()->with('success','تم زيادة العدد المطلوب لهذا الكتاب');
+
             }
         }
         else
@@ -45,12 +47,14 @@ public function AddCard(Request $request,$id)
             }
             else
             {
-                DB::table('cards')->insert(
-                    ['user_id' => $user_id, 'book_id' =>$book_id,'quantity'=>$quantity]
-                );
+                Card::insert([
+                    'user_id' => $user_id,
+                    'book_id' =>$book_id,
+                    'quantity'=>$quantity,
+                    ]);
+                return redirect()->back()->with('success','تم بنجاح اضافة الكتاب الي عربة التسويق الخاص بك');
             }
         }
-        return redirect()->back()->with('success','تم بنجاح اضافة الكتاب الي عربة التسويق الخاص بك');
     }
     else
     {

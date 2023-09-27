@@ -19,28 +19,28 @@ class HomepageController extends Controller
 {
     public function index()
     {
-        $offers=Book::select('id','title','image','author_name','offer','price','price_after_offer')->where('offer','>',6)->orderBy('offer', 'DESC')->get();
+        $offers=Book::select('id','title','image','author_name','offer','price','price_after_offer')->where('status',1)->where('offer','>',6)->orderBy('offer', 'DESC')->get();
 
-        $newly=Book::select('id','title','image','author_name','offer','price','price_after_offer')->orderBy('id', 'DESC')->limit(10)->get();
+        $newly=Book::select('id','title','image','author_name','offer','price','price_after_offer')->where('status',1)->orderBy('id', 'DESC')->limit(10)->get();
 
         $sliders=Slider::where('status',1)->get();
 
         $banners=Banner::where('status',1)->get();
 
-        $bestseller = Order::select('book_id')->distinct()->get();
-        return view('frontend.home.index',compact('banners','sliders','offers','newly' ,'bestseller'));
+       $bestseller = Book::where('stock',1)->where('status',1)->get();
+        return view('frontend.home.index',compact('banners','sliders','offers','newly'  ,'bestseller' ));
     }
 
      public function show_book( $encryptedId)
     {
         $id = Crypt::decrypt($encryptedId);
-        $books=Book::select('title','id','author_name','price','price_after_offer','image')->where('category_id',$id)->paginate(8);
+        $books=Book::select('title','id','author_name','price','price_after_offer','image')->where('status',1)->where('category_id',$id)->paginate(8);
         return view('frontend.shop.index',compact('books'));
     }
 
     public function Show_all_Books()
     {
-        $books=Book::select('title','id','author_name','price','price_after_offer','image')->paginate(8);
+        $books=Book::select('title','id','author_name','price','price_after_offer','image')->where('status',1)->paginate(8);
         return view('frontend.shop.index',compact('books'));
     }
 

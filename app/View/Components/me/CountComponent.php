@@ -27,7 +27,7 @@ class CountComponent extends Component
         if(isset(Auth::user()->id))
         {
             $user_id=Auth::user()->id;
-            $card=Card::where('user_id',$user_id)->count();
+            $card=Card::where('user_id',$user_id)->where('status','penning')->count();
             $fav=Fav::where('user_id',$user_id)->count();
             return view('components.me.count-component',compact('card','fav'));
         }

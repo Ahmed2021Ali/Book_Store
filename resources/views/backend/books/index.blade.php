@@ -18,6 +18,8 @@
                         <th>Author Name</th>
                         <th>Price</th>
                         <th>Status</th>
+                        <th>Quentity</th>
+                        <th>Q Num</th>
                         <th>Image</th>
                         <th>Category Name</th>
                         <th>Acion</th>
@@ -36,7 +38,11 @@
                                     {{ $book->price }}
                                 @endif
                             </td>
-                            <td>{{ $book->status == 1 ? 'Avalible' : 'Not Avalible' }}</td>
+                            <td>{{ $book->status == '1'? 'Avalible' : 'Not Avalible' }}</td>
+
+                            <td>{{ $book->quantity >= '1'? 'Avalible' : 'Not Avalible' }}</td>
+                            <td>{{ $book->quantity }}</td>
+
                             <td>
                                 <img src="\assets\images\book\{{ $book->image }}" width="75px" height="90px">
                             </td>

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\frontend;
 
 use App\Http\Requests\order\StoreSearchRequest;
+use App\Models\Book;
 use App\Models\Card;
 use App\Models\Order;
+use App\Models\OrderProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -16,52 +18,58 @@ class OrderController extends Controller
     public function create()
     {
         $user_id=Auth::user()->id;
-        $order=Card::where('user_id',$user_id)->get();
+        $order=Card::where('user_id',$user_id)->where('status','penning')->get();
         return view('frontend.checkout.index',compact('order'));
     }
 
     public function store(StoreCheckRequest $request)
     {
-        $number_order=rand ( 10000 , 99999 );
-        session()->put('number_order', $number_order);
         $user_id=Auth::user()->id;
-        $order=Card::select('book_id','quantity','user_id','id')->where('user_id',$user_id)->get();
-        foreach($order as $orders)
+        $number_order=rand ( 10000 , 99999 );
+        session()->put('number_order',$number_order);
+        $order=Order::create([
+            'user_id'=> $user_id,
+            'number_order'=>$number_order,
+            ...$request->except('_token')
+        ]);
+        $order_product=Card::select('book_id','quantity','status')->where('user_id',$user_id)->where('status','penning')->get();
+        foreach($order_product as $order_product)
         {
-            $data=$request->except('_token');
-            $data['number_order']=$number_order;
-            $data['book_id']=$orders->book_id;
-            $data['user_id']=$orders->user_id;
-            $data['quantity']=$orders->quantity;
-            $data['created_at'] = now();
-            DB::table('orders')->insert($data);
-            DB::table('cards')->where('id',$orders->id)->delete();
-
-            $new_quantity_book_id =  ($orders->book->quantity) - ($orders->quantity) ;
-            DB::table('books')->where('id', $orders->book_id)->update(['quantity' => $new_quantity_book_id ]);
-        }
-        return redirect()->route('order.detail');
+            $data['order_id']=$order->id;
+            $data['user_id']=$user_id;
+            $data['book_id']=$order_product->book_id;
+            $data['quantity']=$order_product->quantity;
+            $data['price']=$order_product->book->price;
+            $data['offer']=$order_product->book->offer;
+            $data['price_after_offer']=$order_product->book->price_after_offer ? $order_product->book->price_after_offer :$order_product->book->price;
+            $data['total_price'] = ($data['price_after_offer'] ? $data['price_after_offer'] : $data['price']) * $data['quantity'];
+            OrderProduct::create($data);
+            $new_quantity_book_id =  ($order_product->book->quantity) - ($order_product->quantity);
+            Book::where('id', $order_product->book_id)->update([
+                'quantity' => $new_quantity_book_id,
+                'stock' => 1,
+            ]);
+       }
+       Card::where('user_id',$user_id)->update(['status' =>'completed']);
+      return redirect()->route('order.detail');
     }
     public function detail()
     {
         $number_order =  session()->get('number_order');
-        $order=Order::select('book_id','quantity','created_at','number_order')->where('number_order',$number_order)->get();
-        $user = DB::table('orders')->select('fname','lname','email','phone','city','address')->where('number_order', $number_order)->distinct()->first();
-        return view('frontend.order-recieved.index' , compact('order','user') );
+        $order=Order::where('number_order',$number_order)->first();
+        $products = OrderProduct::where('order_id', $order->id )->get();
+        return view('frontend.order-recieved.index' , compact('order','products'));
     }
     public function show()
     {
-    $user_id=Auth::user()->id;
-
-    $order=Order::select('book_id','quantity','created_at','number_order')->where('user_id',$user_id)->paginate(5);
-
-    return view('frontend.order.index',compact('order'));
+        $user_id=Auth::user()->id;
+        $order_products=OrderProduct::where('user_id',$user_id)->get();
+        return view('frontend.order.index',compact('order_products'));
     }
     public function destroy(Request $request ,$id)
     {
-     $number_order=$id;
-     Order::where('number_order',$number_order)->delete();
-    return redirect()->back()->with('success','تم بنجاح حذف الطلب');
+     OrderProduct::where('id',$id)->delete();
+     return redirect()->back()->with('success','تم بنجاح حذف الطلب');
     }
     public function search()
     {
@@ -69,20 +77,21 @@ class OrderController extends Controller
     }
     public function data_search(StoreSearchRequest $request)
     {
-       $order=Order::select('book_id','quantity','created_at','number_order')->where('number_order',$request->number_order)->where('email',$request->email)->get();
-      $user = DB::table('orders')->select('fname','lname','email','phone','city','address','number_order')->where('number_order',$request->number_order)->where('email',$request->email)->distinct()->first();
-    if(!empty($order) && !empty($user))
-    {
-        return view('frontend.order-details.index', compact('order','user'));
-    }
-    else
-    {
-        return redirect()->back()->with('error','خطا في ادخال البيانات');
-    }
+       $order=Order::where('number_order',$request->number_order)->where('email',$request->email)->first();
+
+        if($order)
+        {
+            $order_products=OrderProduct::where('order_id',$order->id)->get();
+            return view('frontend.order-details.index', compact('order','order_products'));
+        }
+        else
+        {
+            return redirect()->back()->with('error','خطا في ادخال البيانات');
+        }
     }
 
-    public function edit_address($number_order)
+    public function edit_address($id)
     {
-        echo $number_order;
+        echo $id;
     }
 }

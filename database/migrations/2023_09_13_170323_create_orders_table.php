@@ -19,14 +19,11 @@ return new class extends Migration
             $table->string('city');
             $table->string('address');
             $table->string('phone');
-            $table->string('email')->nullable();
+            $table->string('number_order');
+            $table->string('email');
             $table->string('note')->nullable();
-            $table->string('quantity');
-            $table->unsignedBigInteger('book_id');
-            $table->foreign('book_id')->references('id')->on('books')->cascadeOnUpdate()->cascadeOnDelete();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->string('number_order');
             $table->timestamps();
         });
     }

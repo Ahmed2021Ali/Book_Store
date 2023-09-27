@@ -33,16 +33,16 @@
                             <th class="d-none d-md-table-cell">حذف الاوردر</th>
                         </thead>
                         <tbody>
-                            @foreach ($order as $orders)
-                            <?php $encryptedId = Crypt::encrypt($orders->book->id); ?>
+                            @foreach ($order_products as $order_product)
+                            <?php $encryptedId = Crypt::encrypt($order_product->book->id); ?>
                                 <tr class="order__item">
                                     <td class="d-flex justify-content-between d-md-table-cell">
                                         <div class="fw-bolder d-md-none">الطلب:</div>
-                                        <div><a href="">#{{ $orders->number_order }}</a></div>
+                                        <div><a href="">#{{ $order_product->order->number_order }}</a></div>
                                     </td>
                                     <td class="d-flex justify-content-between d-md-table-cell">
                                         <div class="fw-bolder d-md-none">التاريخ:</div>
-                                        <div> {{ $orders->created_at }}</div>
+                                        <div> {{ $order_product->created_at->format('Y-m-d') }}</div>
                                     </td>
                                     <td class="d-flex justify-content-between d-md-table-cell">
                                         <div class="fw-bolder d-md-none">الحالة:</div>
@@ -51,12 +51,12 @@
                                     <td class="d-flex justify-content-between d-md-table-cell">
                                         <div class="fw-bolder d-md-none">الاجمالي:</div>
                                         <div>
-                                            {{ ($orders->book->price_after_offer ? $orders->book->price_after_offer : $orders->book->price) * $orders->quantity }}.0
+                                            {{ $order_product->total_price }}.0
                                             جنيه لعنصر واحد</div>
                                     </td>
                                     <td class="d-flex justify-content-between d-md-table-cell">
                                         <div class="fw-bolder d-md-none">الكمية:</div>
-                                        <div>{{ $orders->quantity }} </div>
+                                        <div>{{ $order_product->quantity }} </div>
                                     </td>
                                     <td class="d-flex justify-content-between d-md-table-cell">
                                         <div class="fw-bolder d-md-none">اجراءات:</div>
@@ -65,7 +65,7 @@
                                     </td>
                                     <td class="d-flex justify-content-between d-md-table-cell">
                                         <div class="fw-bolder d-md-none">حذف الاوردر:</div>
-                                        <form action="{{ route('order.destroy', $orders->number_order) }}" method="post">
+                                        <form action="{{ route('order.destroy', $order_product->id) }}" method="post">
                                             @method('delete')
                                             @csrf
                                             <button type="submit" class="btn btn-danger">حذف</button>
@@ -76,8 +76,8 @@
                         </tbody>
                     </table>
                     <br>
-                    {{ $order->links('pagination.pagination') }}
-                </div>
+{{--                      {{ $order_products->links('pagination.pagination') }}
+  --}}                </div>
             </div>
         </section>
     </main>

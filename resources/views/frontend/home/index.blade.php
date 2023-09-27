@@ -107,20 +107,20 @@
             </div>
             <div class="owl-carousel products__slider owl-theme">
                 @foreach ($bestseller as $bestseller)
-                <?php $encryptedId = Crypt::encrypt($bestseller->book->id); ?>
+                <?php $encryptedId = Crypt::encrypt($bestseller->id); ?>
                     <div class="products__item">
                         <div class="product__header mb-3">
                             <a href="{{ route('single_book', $encryptedId) }}">
                                 <div class="product__img-cont">
                                     <img class="product__img w-100 h-100 object-fit-cover"
-                                        src="assets\images\book\{{ $bestseller->book->image }}" data-id="white">
+                                        src="assets\images\book\{{ $bestseller->image }}" data-id="white">
                                 </div>
                             </a>
                             <div class="product__sale position-absolute top-0 start-0 m-1 px-2 py-1 rounded-1 text-white">
-                                وفر {{ $bestseller->book->offer }}%
+                                وفر {{ $bestseller->offer }}%
                             </div>
                             <div>
-                                <a href="{{ route('fav.store', $bestseller->book->id) }}"
+                                <a href="{{ route('fav.store', $bestseller->id) }}"
                                     class="product__favourite position-absolute top-0 end-0 m-1 rounded-circle d-flex justify-content-center align-items-center bg-white">
                                     <i class="fa-regular fa-heart"></i></a>
                             </div>
@@ -128,18 +128,18 @@
                         <div class="product__title text-center">
                             <a class="text-black text-decoration-none"
                                 href="{{ route('single_book', $encryptedId) }}">
-                                {{ $bestseller->book->title }}
+                                {{ $bestseller->title }}
                             </a>
                         </div>
                         <div class="product__author text-center">
-                            {{ $bestseller->book->author_name }}
+                            {{ $bestseller->author_name }}
                         </div>
                         <div class="product__price text-center d-flex gap-2 justify-content-center flex-wrap">
                             <span class="product__price product__price--old">
-                                {{ $bestseller->book->price }}.00 جنيه
+                                {{ $bestseller->price }}.00 جنيه
                             </span>
                             <span class="product__price">
-                                {{ $bestseller->book->price_after_offer ? $bestseller->book->price_after_offer : $bestseller->book->price }}.00
+                                {{ $bestseller->price_after_offer ? $bestseller->price_after_offer : $bestseller->price }}.00
                                 جنيه
                             </span>
                         </div>

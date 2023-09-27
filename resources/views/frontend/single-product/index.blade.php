@@ -28,8 +28,10 @@
 
 
                     <div style="color:#ff0000">
-                        @if ($book->quantity < 6)
+                        @if ( $book->quantity > 1 && $book->quantity < 5 )
                             متبقي {{ $book->quantity }} فقط اطلبه الآن
+                        @elseif($book->quantity == 0)
+                        غير متوفر حاليا
                         @endif
                     </div>
 
@@ -56,7 +58,7 @@
                         <span>التصنيفات: </span>{{ $book->category->title }}
                     </div>
                     <div>
-                        <span>متاح: </span> {{ $book->status == '1' ? 'متوفر' : 'غير متوفر' }}
+                        <span>متاح: </span> {{ $book->quantity == '0' ? ' غير متوفر' : ' متوفر' }}
                     </div>
                 </div>
             </div>

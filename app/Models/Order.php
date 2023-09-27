@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Book;
+use App\Models\OrderProduct;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -18,8 +19,8 @@ class Order extends Model
         'phone',
         'email',
         'note',
-        'book_id ',
-        'number_order',
+        'user_id',
+        'number_order'
     ];
 
     protected $with=['book','user'];
@@ -31,5 +32,9 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function order_product()
+    {
+        return $this->hasMany(OrderProduct::class);
     }
 }

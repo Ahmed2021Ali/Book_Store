@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Card extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'status'
+    ];
 
     protected $with=['book'];
 

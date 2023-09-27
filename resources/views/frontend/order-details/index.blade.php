@@ -22,33 +22,33 @@ $total_price_after_offer = 0;
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($order as $orders)
-                        <?php $encryptedId = Crypt::encrypt($orders->book->id); ?>
+                        @foreach ($order_products as $order_products)
+                        <?php $encryptedId = Crypt::encrypt($order_products->book->id); ?>
                             <tr>
                                 <td>
                                     <div>
                                         <a href="{{ route('single_book', $encryptedId) }}">
-                                            <h5>{{ $orders->book->title }}</h5>
+                                            <h5>{{ $order_products->book->title }}</h5>
                                         </a>
                                     </div>
                                     <div>
                                         <span class="fw-bold">المؤلف</span>
-                                        <span>{{ $orders->book->author_name }}</span>
+                                        <span>{{ $order_products->book->author_name }}</span>
                                     </div>
                                     <div>
                                         <span class="fw-bold">رقم الطلب</span>
-                                        <span>{{ $orders->number_order }}</span>
+                                        <span>{{ $order_products->order->number_order }}</span>
                                     </div>
                                     <div>
                                         <span class="fw-bold"> تاريخ الطلب</span>
-                                        <span>{{ $orders->created_at }}</span>
+                                        <span>{{ $order_products->created_at->format('Y-m-d') }}</span>
                                     </div>
                                 </td>
-                                <td>{{ $orders->quantity }}</td>
-                                <td>{{ ($orders->book->price_after_offer ? $orders->book->price_after_offer : $orders->book->price) * $orders->quantity  }}.00
+                                <td>{{ $order_products->quantity }}</td>
+                                <td>{{ $order_products->total_price  }}.00
                                     جنيه</td>
                             </tr>
-                            <?php $total_price += ($orders->book->price_after_offer ? $orders->book->price_after_offer : $orders->book->price) * $orders->quantity ; ?>
+                            <?php $total_price += $order_products->total_price; ?>
                         @endforeach
                         <tr>
                             <th>الإجمالي:</th>
@@ -60,14 +60,14 @@ $total_price_after_offer = 0;
             <section class="section-container mb-5">
                 <h2>عنوان الفاتورة</h2>
                 <div class="border p-3 rounded-3">
-                    <p class="mb-1"> الاسم : {{ $user->fname }} {{ $user->lname }} </p>
-                    <p class="mb-1">  العنوان : {{ $user->address }}  </p>
-                    <p class="mb-1"> المحافظة : {{ $user->city }}</p>
-                    <p class="mb-1"> الرقم التواصل : {{ $user->phone }}</p>
-                    <p class="mb-1"> الاميل  {{ $user->email }}</p>
+                    <p class="mb-1"> الاسم : {{ $order->fname }} {{ $order->lname }} </p>
+                    <p class="mb-1">  العنوان : {{ $order->address }}  </p>
+                    <p class="mb-1"> المحافظة : {{ $order->city }}</p>
+                    <p class="mb-1"> الرقم التواصل : {{ $order->phone }}</p>
+                    <p class="mb-1"> الاميل  {{ $order->email }}</p>
                 </div>
                 <br>
-              <a href="{{ route('order.edit.address',$user->number_order) }}" ><button type=b"utton" class="btn btn-danger">تعديل العنوان </button></a>
+                <a href="{{ route('order.edit.address',$order->id) }}" ><button type=b"utton" class="btn btn-danger">تعديل العنوان </button></a>
             </section>
         </section>
     </main>
