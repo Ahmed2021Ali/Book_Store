@@ -2,11 +2,12 @@
 
 
 
-use App\Http\Controllers\frontend\FavController;
-use App\Http\Controllers\frontend\OrderController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\frontend\FavController;
 use App\Http\Controllers\frontend\CardController;
+use App\Http\Controllers\frontend\OrderController;
 use App\Http\Controllers\frontend\HomepageController;
 
 /*
@@ -47,7 +48,8 @@ Route::middleware(['auth'])->prefix('HomePage')->group(function () {
 
     Route::controller(OrderController::class)->as('order.')->group(function(){
         Route::get('order/create','create')->name('create');
-        Route::post('order/store','store')->name('store');
+        Route::post('order/store_address','store_address')->name('store_address');
+        Route::get('order/store_order','store_order')->name('store');
         Route::get('order/detail','detail')->name('detail');
         Route::get('order/show','show')->name('show');
         Route::delete('order/destroy/{id}','destroy')->name('destroy');
@@ -62,4 +64,14 @@ Route::middleware(['auth'])->prefix('HomePage')->group(function () {
         Route::delete('fav/destroy/{id}','destroy')->name('destroy');
 
     });
+
+    Route::controller(PaypalController::class)->as('payment.')->group(function(){
+        Route::get('payment','payment')->name('index');
+        Route::get('payment/cancel','cancel')->name('cancel');
+        Route::get('payment/success','success')->name('success');
+        });
+
+
 });
+
+

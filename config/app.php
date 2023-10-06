@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
+use Srmklive\PayPal\Providers\PayPalServiceProvider;
 
 return [
 
@@ -163,6 +164,7 @@ return [
         /*
          * Application Service Providers...
          */
+        PayPalServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,

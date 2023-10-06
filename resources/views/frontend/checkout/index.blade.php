@@ -12,7 +12,7 @@
 
             <div class="checkout__form-cont w-50 px-3 mb-5">
                 <h4>الفاتورة </h4>
-                <form class="checkout__form" action="{{ route('order.store') }}" method="post">
+                <form class="checkout__form" action="{{ route('order.store_address') }}" method="post">
                     @csrf
                     <div class="d-flex gap-3 mb-3">
                         <div class="w-50">
@@ -151,10 +151,10 @@
 
 
                 <div class="checkout__payment py-3 px-4 mb-3">
-                    <p class="m-0 fw-bolder">الدفع نقدا عند الاستلام</p>
+                    <p class="m-0 fw-bolder">الدفع باستخدام  </p>
                 </div>
 
-                <p>الدفع عند التسليم مباشرة.</p>
+                <img src="{{ asset('assets/images/Paypal-logo.png') }}" alt="HTML5 Icon" style="width:400px;height:200px;">
             </div>
 
         </section>

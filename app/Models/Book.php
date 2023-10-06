@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Book extends Model
 {
     use HasFactory;
+    protected $fillable = ['id', 'price', 'title','description','offer','book_page_number','code','status','quantity','image','author_name','price_after_offer','category_id ','stock'];
 
 
     public function category()

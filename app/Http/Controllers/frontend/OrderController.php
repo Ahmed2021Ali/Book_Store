@@ -22,16 +22,25 @@ class OrderController extends Controller
         return view('frontend.checkout.index',compact('order'));
     }
 
-    public function store(StoreCheckRequest $request)
+    public function store_address(StoreCheckRequest $request)
     {
         $user_id=Auth::user()->id;
         $number_order=rand ( 10000 , 99999 );
         session()->put('number_order',$number_order);
-        $order=Order::create([
+        Order::create([
             'user_id'=> $user_id,
             'number_order'=>$number_order,
             ...$request->except('_token')
         ]);
+        return redirect()->route('payment.index');
+    }
+
+    public function store_order()
+    {
+        $number_order =  session()->get('number_order');
+        $user_id=Auth::user()->id;
+        $order=Order::select('id')->where('number_order',$number_order)->first();
+
         $order_product=Card::select('book_id','quantity','status')->where('user_id',$user_id)->where('status','penning')->get();
         foreach($order_product as $order_product)
         {
@@ -51,7 +60,10 @@ class OrderController extends Controller
             ]);
        }
        Card::where('user_id',$user_id)->update(['status' =>'completed']);
-      return redirect()->route('order.detail');
+
+      return redirect()->route('order.detail')->with([
+        'success' => 'Paid successfully , thank you we will receive the order '
+    ]);
     }
     public function detail()
     {

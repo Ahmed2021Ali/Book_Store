@@ -19,16 +19,17 @@ class HomepageController extends Controller
 {
     public function index()
     {
-        $offers=Book::select('id','title','image','author_name','offer','price','price_after_offer')->where('status',1)->where('offer','>',6)->orderBy('offer', 'DESC')->get();
+        $offers=Book::where('status',1)->orderBy('offer','desc')->limit(10)->get();
 
-        $newly=Book::select('id','title','image','author_name','offer','price','price_after_offer')->where('status',1)->orderBy('id', 'DESC')->limit(10)->get();
+        $newly=Book::where('status',1)->latest('id')->take(10)->get();
 
         $sliders=Slider::where('status',1)->get();
 
         $banners=Banner::where('status',1)->get();
 
        $bestseller = Book::where('stock',1)->where('status',1)->get();
-        return view('frontend.home.index',compact('banners','sliders','offers','newly'  ,'bestseller' ));
+
+    return view('frontend.home.index',compact('banners','sliders','offers','newly'  ,'bestseller' ));
     }
 
      public function show_book( $encryptedId)

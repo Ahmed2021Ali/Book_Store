@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1b35e2841d683e8e6ab220753b9d6091",
+    "content-hash": "4b1db2d3a1c93bcf48ddac034c2b2bcf",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -3243,29 +3243,22 @@
         },
         {
             "name": "srmklive/paypal",
-            "version": "3.0.25",
+            "version": "1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/srmklive/laravel-paypal.git",
-                "reference": "3e151690f6d5e80f1d3ca6bb7957e2b0222f5768"
+                "reference": "6591f5431a3e872d04609889c147148413abf493"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/srmklive/laravel-paypal/zipball/3e151690f6d5e80f1d3ca6bb7957e2b0222f5768",
-                "reference": "3e151690f6d5e80f1d3ca6bb7957e2b0222f5768",
+                "url": "https://api.github.com/repos/srmklive/laravel-paypal/zipball/6591f5431a3e872d04609889c147148413abf493",
+                "reference": "6591f5431a3e872d04609889c147148413abf493",
                 "shasum": ""
             },
             "require": {
-                "ext-curl": "*",
-                "guzzlehttp/guzzle": "~7.0",
-                "illuminate/support": "~6.0|~7.0|~8.0|~9.0|^10.0",
-                "nesbot/carbon": "~2.0",
-                "php": ">=7.2|^8.0"
-            },
-            "require-dev": {
-                "phpstan/phpstan": "^1.10",
-                "phpunit/phpunit": "^8.0|^9.0|^10.0",
-                "symfony/var-dumper": "~5.0"
+                "guzzlehttp/guzzle": "~6.0|~7.0",
+                "illuminate/support": "~5.1|~5.2|~5.3|~5.4|~5.5|~5.6|~5.7|~5.8|~6.0|~7.0|~8.0|~9.0|~10.0",
+                "nesbot/carbon": "~1.0|~2.0"
             },
             "type": "library",
             "extra": {
@@ -3303,9 +3296,9 @@
             ],
             "support": {
                 "issues": "https://github.com/srmklive/laravel-paypal/issues",
-                "source": "https://github.com/srmklive/laravel-paypal/tree/3.0.25"
+                "source": "https://github.com/srmklive/laravel-paypal/tree/1.11.0"
             },
-            "time": "2023-09-12T21:52:40+00:00"
+            "time": "2023-02-24T09:55:50+00:00"
         },
         {
             "name": "symfony/console",
@@ -8545,5 +8538,5 @@
         "php": "^8.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
