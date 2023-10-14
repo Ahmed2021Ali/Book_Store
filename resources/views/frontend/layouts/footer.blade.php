@@ -28,7 +28,7 @@
                             href="{{ route('refund_policy') }}">سياسة الاستبدال و
                             الاسترجاع</a></li>
                     <li><a class="footer__link text-decoration-none d-inline-block text-gray py-1"
-                            href="{{ route('order.search') }}">تتبع طلبك</a></li>
+                            href="{{ route('order.search_page') }}">تتبع طلبك</a></li>
                 </div>
             </div>
             <div class="col-md-6 col-lg-3 px-md-4 mb-5 mb-lg-0">

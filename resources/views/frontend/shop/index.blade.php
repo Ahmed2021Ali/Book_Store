@@ -22,23 +22,6 @@
                 <x-me.search-component />
             </div>
             <div class="shop__products w-100">
-
-                {{--  محتاج تعديل   --}}
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <p class="m-0">عرض 1 - 40 من أصل 144 نتيجة</p>
-                    <form method="post" action="{{ route('selected') }}">
-                        @csrf
-                        <select class="shop__category border-0 border-bottom bg-transparent" name="data">
-                            <option selected disabled>اختر الترتيب</option>
-                            <option value="للأعلي">ترتيب حسب: الأدني سعرا للأعلي</option>
-                            <option value="للأدني">ترتيب حسب: الأعلي سعرا للأدني</option>
-                        </select>
-                        <button type="submit" class="btn btn-info mb-0"
-                            style="--bs-btn-padding-y: .30rem; --bs-btn-padding-x: .6rem; --bs-btn-font-size: .8rem;"> تأكيد
-                            البحث </button>
-                    </form>
-                </div>
-
                 <div class="row products__list">
                     @foreach ($books as $book)
                     <?php $encryptedId = Crypt::encrypt($book->id); ?>

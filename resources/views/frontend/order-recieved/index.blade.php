@@ -4,6 +4,7 @@
     <main>
         <x-navbar-component message=" حسابي" />
         <?php $total_price = 0; ?>
+
         <section class="section-container profile my-5 py-5">
             <div class="text-center mb-5">
                 <div class="success-gif m-auto">
@@ -34,6 +35,7 @@
                 </div>
               </div>
         </section>
+
         <section class="section-container">
             <h2>تفاصيل الطلب</h2>
             <table class="success__table w-100 mb-5">
@@ -77,6 +79,7 @@
                 </tbody>
             </table>
         </section>
+
         <section class="section-container mb-5">
             <h2>عنوان الفاتورة</h2>
             <div class="border p-3 rounded-3">
@@ -86,7 +89,8 @@
                 <p class="mb-1">{{ $order->phone }}</p>
                 <p class="mb-1">{{ $order->email }}</p>
             </div>
-
+            <a href="{{ route('order.edit.address',$order->id) }}" ><button type=b"utton" class="btn btn-danger">تعديل العنوان </button></a>
         </section>
+        
     </main>
 @endsection

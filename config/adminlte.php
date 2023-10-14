@@ -432,6 +432,17 @@ return [
                 ],
             ],
         ],
+        [
+            'text'    => 'Order',
+            'icon'    => 'fab fa-quora',
+            'submenu' =>
+            [
+                [
+                    'text' => 'Show all order for user',
+                    'route'  => 'show_all_order',
+                ],
+            ],
+        ],
     ],
 
     /*

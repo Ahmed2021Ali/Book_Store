@@ -15,15 +15,15 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->string('offer')->nullable();
+            $table->integer('offer')->nullable();
             $table->string('book_page_number');
             $table->string('code');
             $table->boolean('status');
             $table->string('quantity');
             $table->string('image');
             $table->string('author_name');
-            $table->string('price');
-            $table->string('price_after_offer')->nullable();
+            $table->decimal('price',8,2);
+            $table->decimal('price_after_offer',8,2)->nullable();
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();

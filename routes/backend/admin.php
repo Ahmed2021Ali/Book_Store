@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\frontend\OrderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\backend\FAQController;
 use App\Http\Controllers\backend\BookController;
@@ -43,5 +44,9 @@ Route::middleware(['auth','Check.Type'])->prefix('Dashboard.Admin')->group( func
     Route::resource('/WishList',WishListController::class);  // waiting
 
     Route::resource('/branch',BranchController::class)->except('show');
+
+    Route::get('/show_all_order',[OrderController::class,'show_all_order_for_admin'])->name('show_all_order');
+    Route::delete('/delete_order/{id}',[OrderController::class,'delete_order_for_admin'])->name('delete_order');
+
 
 });

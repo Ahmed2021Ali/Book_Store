@@ -42,7 +42,7 @@ class BookController extends Controller
         $price_after_offer =$this->price_after_offer($request->price,$request->offer);
         $data['price_after_offer'] = $price_after_offer;
         Book::insert($data);
-        return redirect()->back()->with('success','تم بنجاح اضافة الكتاب');
+        return redirect()->back()->with(['success'=>'تم بنجاح اضافة الكتاب']);
 
     }
 
@@ -76,7 +76,7 @@ class BookController extends Controller
             $data['image']=$PhotoName;
        }
        Book::where('id',$id)->update($data);
-       return redirect()->back()->with('success','تم بنجاح تحديث الكتاب  ');
+       return redirect()->back()->with(['success'=>'تم بنجاح تحديث الكتاب ']);
     }
 
     /**
@@ -88,6 +88,6 @@ class BookController extends Controller
         $photo_path=public_path('/assets/images/book/').$old_photo;
         $this->deletePhoto($photo_path);
         Book::where('id',$id)->delete();
-        return redirect()->back()->with('success',' تم بنجاح حذف الكتاب');
+        return redirect()->back()->with(['success'=>' تم بنجاح حذف الكتاب']);
     }
 }

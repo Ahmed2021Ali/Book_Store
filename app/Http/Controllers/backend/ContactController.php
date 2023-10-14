@@ -33,7 +33,7 @@ class ContactController extends Controller
     {
         $data = $request->except('_token');
         Contact::insert($data);
-        return redirect()->back()->with('success','سيتم التواصل معك في اقرب وقت');
+        return redirect()->back()->with(['success'=>'سيتم التواصل معك في اقرب وقت']);
     }
 
     /**
@@ -55,7 +55,7 @@ class ContactController extends Controller
     {
         $data = $request->except('_token','_method');
         Contact::where('id',$id)->update($data);
-        return redirect()->back()->with('success',' تم بنجاح التحديث ');
+        return redirect()->back()->with(['success'=>' تم بنجاح التحديث ']);
     }
 
     /**
@@ -65,6 +65,6 @@ class ContactController extends Controller
     {
 
         Contact::where('id',$id)->delete();
-        return redirect()->back()->with('success',' تم بنجاح الحذف ');
+        return redirect()->back()->with(['success'=>' تم بنجاح الحذف ']);
     }
 }

@@ -35,7 +35,7 @@ class BranchController extends Controller
     {
         $data = $request->except('_token');
         Branch::insert($data);
-        return redirect()->back()->with('success','تم بنجاح اضافة العنوان');
+        return redirect()->back()->with(['success'=>'تم بنجاح اضافة العنوان']);
     }
 
     /**
@@ -57,7 +57,7 @@ class BranchController extends Controller
     {
         $data = $request->except('_token','_method');
         Branch::where('id',$id)->update($data);
-       return redirect()->back()->with('success','تم بنجاح تحديث العنوان ');
+       return redirect()->back()->with(['success'=>'تم بنجاح تحديث العنوان ']);
     }
 
     /**
@@ -66,6 +66,6 @@ class BranchController extends Controller
     public function destroy($id)
     {
         Branch::where('id',$id)->delete();
-        return redirect()->back()->with('success',' تم بنجاح حذف العنوان');
+        return redirect()->back()->with(['success'=>' تم بنجاح حذف العنوان']);
     }
 }

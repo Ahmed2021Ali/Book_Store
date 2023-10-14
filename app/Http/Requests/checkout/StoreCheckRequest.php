@@ -25,7 +25,7 @@ class StoreCheckRequest extends FormRequest
             'fname'=>['required','string','max:256','min:2'],
             'lname'=>['required','string','max:256','min:2'],
             'city'=>['required','string','max:256','min:2'],
-            'phone' => ['required', 'regex:/^01[0-2,5,9]{1}[0-9]{8}$/'],
+            'phone' => ['required'],
             'address' => ['required','string', 'max:255'],
             'email' => ['required','email']
         ];

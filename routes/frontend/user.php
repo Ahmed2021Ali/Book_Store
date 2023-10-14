@@ -35,7 +35,6 @@ Route::controller(HomepageController::class)->prefix('HomePage')->group(function
         Route::get('/contact_us','contact_us')->name('contact_us');
         Route::get('/refund_policy','refund_policy')->name('refund_policy');
         Route::post('/search','search')->name('search');
-        Route::post('/selected','selected')->name('selected');  // محتاج تعديل*
 });
 
 Route::middleware(['auth'])->prefix('HomePage')->group(function () {
@@ -47,15 +46,20 @@ Route::middleware(['auth'])->prefix('HomePage')->group(function () {
     Route::delete('/DestroyCard/{id}',[CardController::class,'DestroyCard'])->name('Card.Destroy');
 
     Route::controller(OrderController::class)->as('order.')->group(function(){
-        Route::get('order/create','create')->name('create');
+        Route::get('order/create','create_order')->name('create');
+        Route::get('order/store','store_order')->name('store');
+
         Route::post('order/store_address','store_address')->name('store_address');
-        Route::get('order/store_order','store_order')->name('store');
-        Route::get('order/detail','detail')->name('detail');
-        Route::get('order/show','show')->name('show');
-        Route::delete('order/destroy/{id}','destroy')->name('destroy');
-        Route::get('order/search','search')->name('search');
-        Route::post('order/data_search','data_search')->name('data_search');
-        Route::get('order/edit_address/{number_order}','edit_address')->name('edit.address');
+        Route::get('order/edit_address/{id}','edit_address')->name('edit.address');
+        Route::PUT('order/update_address/{id}','update_address')->name('update.address');
+
+        Route::get('order/details','details_order')->name('details');
+
+        Route::get('order/show','show_order_user')->name('show');
+        Route::delete('order/destroy/{id}','delete_order_for_user')->name('destroy');
+
+        Route::get('order/search_page','search_page')->name('search_page');
+        Route::get('order/search','search_order')->name('search');
     });
 
     Route::controller(FavController::class)->as('fav.')->group(function(){

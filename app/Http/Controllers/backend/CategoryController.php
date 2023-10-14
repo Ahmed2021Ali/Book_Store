@@ -35,7 +35,7 @@ class CategoryController extends Controller
     {
         $data = $request->except('_token');
         Category::insert($data);
-        return redirect()->back()->with('success','تم بنجاح اضافة القسم');
+        return redirect()->back()->with(['success'=>'تم بنجاح اضافة القسم']);
     }
 
     /**
@@ -62,7 +62,7 @@ class CategoryController extends Controller
     {
         $data = $request->except('_token','_method');
         Category::where('id',$id)->update($data);
-        return redirect()->back()->with('success',' تم بنجاح تحديث القسم');
+        return redirect()->back()->with(['success'=>' تم بنجاح تحديث القسم']);
     }
 
     /**
@@ -72,6 +72,6 @@ class CategoryController extends Controller
     {
         $id=$category->id;
         Category::where('id',$id)->delete();
-        return redirect()->back()->with('success',' تم بنجاح حذف القسم');
+        return redirect()->back()->with(['success'=>' تم بنجاح حذف القسم']);
     }
 }

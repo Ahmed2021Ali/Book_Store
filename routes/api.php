@@ -15,4 +15,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::POST('/pay',[FatoorahController::class,'checkout']);
+/* Route::POST('/pay',[FatoorahController::class,'checkout']); */

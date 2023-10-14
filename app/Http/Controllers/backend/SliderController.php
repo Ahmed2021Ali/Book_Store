@@ -37,7 +37,7 @@ class SliderController extends Controller
         $data = $request->except('_token');
         $data['image'] = $photoName;
         Slider::insert($data);
-        return redirect()->back()->with('success','تم بنجاح اضافة الصورة');
+        return redirect()->back()->with(['success'=>'تم بنجاح اضافة الصورة']);
     }
 
     /**
@@ -70,7 +70,7 @@ class SliderController extends Controller
         }
 
         Slider::where('id',$id)->update($data);
-        return redirect()->back()->with('success',' تم بنجاح تحديث الصورة و العرض');
+        return redirect()->back()->with(['success'=>' تم بنجاح تحديث الصورة و العرض']);
     }
     /**
      * Remove the specified resource from storage.
@@ -81,6 +81,6 @@ class SliderController extends Controller
         $photo_path=public_path('/assets/images/slider/').$old_photo;
         $this->deletePhoto($photo_path);
         Slider::where('id',$id)->delete();
-        return redirect()->back()->with('success',' تم بنجاح حذف الصورة');
+        return redirect()->back()->with(['success'=>' تم بنجاح حذف الصورة']);
     }
 }

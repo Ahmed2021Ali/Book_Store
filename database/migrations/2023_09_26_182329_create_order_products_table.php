@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('quantity');
             $table->string('price');
-            $table->string('offer');
-            $table->string('price_after_offer');
-            $table->string('total_price');
+            $table->integer('offer');
+            $table->decimal('price_after_offer',8,2);
+            $table->decimal('total_price',8,2);
+
 
             $table->unsignedBigInteger('book_id');
             $table->foreign('book_id')->references('id')->on('books')->cascadeOnUpdate()->cascadeOnDelete();

@@ -34,7 +34,7 @@ class FAQController extends Controller
     {
         $data = $request->except('_token');
         FAQ::insert($data);
-        return redirect()->back()->with('success','تم بنجاح اضافة السوال و الرد ');
+        return redirect()->back()->with(['success'=>'تم بنجاح اضافة السوال و الرد ']);
     }
 
     /**
@@ -58,7 +58,7 @@ class FAQController extends Controller
     {
         $data = $request->except('_token','_method');
         FAQ::where('id',$id)->update($data);
-       return redirect()->back()->with('success',' تم بنجاح تحديث السوال  و الرد');
+       return redirect()->back()->with(['success'=>' تم بنجاح تحديث السوال  و الرد']);
     }
 
     /**
@@ -67,6 +67,6 @@ class FAQController extends Controller
     public function destroy(FAQ $fAQ,$id)
     {
         FAQ::where('id',$id)->delete();
-        return redirect()->back()->with('success',' تم بنجاح حذف السوال و الرد');
+        return redirect()->back()->with(['success'=>' تم بنجاح حذف السوال و الرد']);
     }
 }

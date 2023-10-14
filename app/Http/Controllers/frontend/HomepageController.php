@@ -87,7 +87,7 @@ class HomepageController extends Controller
             $q->where('title','like',"%$search%")
             ->orwhere('author_name','like',"%$search%")
             ->orwhere('description','like',"%$search%");
-           })
+           })->where('status',1)
            ->orwhereHas('category',function($q) use ($search){
             $q->where('title',"$search");
          })->paginate(8);
@@ -100,25 +100,6 @@ class HomepageController extends Controller
          {
             return redirect()->route('Show_all_Books');
          }
-    }
-
-    // محتاج تعديل
-    public function selected(Request $request)
-    {
-        $data=$request->data;
-        if($data=="للأعلي")
-        {
-            $books=Book::select('id','title','image','author_name','offer','price','price_after_offer')->orderBy('price', 'ASC')->paginate(8);
-        }
-        elseif($data=="للأدني")
-        {
-            $books=Book::select('id','title','image','author_name','offer','price','price_after_offer')->orderBy('price', 'DESC')->paginate(8);
-        }
-        else
-        {
-            return redirect()->route('Show_all_Books');
-        }
-        return view('frontend.shop.index',compact('books'));
     }
 
 
