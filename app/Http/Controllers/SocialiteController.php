@@ -18,13 +18,17 @@ class SocialiteController extends Controller
     {
         $socialite=   Socialite::driver($provider)->stateless()->user();
        // $socialite= Socialite::driver($provider)->user();
-        $user=User::updateOrCreate([
-            'provider' => $provider,
-            'provider_id'=>$socialite->getId(),
-        ],[
-            'name' =>$socialite->getName(),
-            'email'=>$socialite->getEmail(),
-        ]);
+        $user=User::where('email',$socialite->getEmail())->first();
+        if(!$user)
+        {
+            $user=User::updateOrCreate([
+                'provider' => $provider,
+                'provider_id'=>$socialite->getId(),
+            ],[
+                'name' =>$socialite->getName(),
+                'email'=>$socialite->getEmail(),
+            ]);
+        }
         Auth::login($user,true);
         return to_route('homepage');
     }
