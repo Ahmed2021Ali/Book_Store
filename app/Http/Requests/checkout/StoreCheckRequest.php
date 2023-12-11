@@ -22,7 +22,6 @@ class StoreCheckRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status'=>['required'],
             'fname'=>['required','string','max:256','min:2'],
             'lname'=>['required','string','max:256','min:2'],
             'city'=>['required','string','max:256','min:2'],

@@ -3,15 +3,14 @@
 namespace App\Http\Controllers\frontend;
 
 
-use App\Models\FAQ;
-use App\Models\Book;
-use App\Models\Order;
+use App\Http\Controllers\Controller;
 use App\Models\Banner;
+use App\Models\Book;
 use App\Models\Branch;
+use App\Models\FAQ;
+use App\Models\Order;
 use App\Models\Slider;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Crypt;
 
 

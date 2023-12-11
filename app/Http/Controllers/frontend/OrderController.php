@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers\frontend;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\order\StoreSearchRequest;
+use App\Jobs\SendMails;
+use App\Models\AddressOreder;
 use App\Models\Book;
 use App\Models\Card;
 use App\Models\Order;
-use App\Jobs\SendMails;
-use App\Mail\SendUserMail;
 use App\Models\OrderProduct;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-use App\Http\Requests\order\StoreSearchRequest;
-use App\Http\Requests\checkout\StoreCheckRequest;
 
 class OrderController extends Controller
 {
@@ -21,14 +19,31 @@ class OrderController extends Controller
     {
         $user_id=Auth::user()->id;
         $order=Card::where('user_id',$user_id)->where('status','penning')->get();
-        return view('frontend.checkout.index',compact('order'));
+        $addresses=AddressOreder::where('user_id',$user_id)->get();
+        return view('frontend.checkout.index',compact('order','addresses'));
+    }
+
+    public function status_payment(Request $request)
+    {
+        session()->put('address_id',$request->address);
+
+       if($request->status == "كاش")
+        {
+            return redirect()->route('order.store',$request->status);
+        }
+
+        else
+        {
+            return redirect()->route('payment.index');
+        }
     }
 
     public function store_order($status)
     {
-        $number_order =  session()->get('number_order');
+        $address_id =  session()->get('address_id');
         $user_id=Auth::user()->id;
-        $order=Order::where('number_order',$number_order)->first();
+
+        $order=Order::where('id',$address_id)->first();
 
         $order_product=Card::select('book_id','quantity','status')->where('user_id',$user_id)->where('status','penning')->get();
         foreach($order_product as $order_product)
@@ -40,7 +55,7 @@ class OrderController extends Controller
             $data['price']=$order_product->book->price;
             $data['offer']=$order_product->book->offer;
             $data['status']=$status;
-            $data['price_after_offer']=$order_product->book->price_after_offer ? $order_product->book->price_after_offer :$order_product->book->price;
+            $data['price_after_offer']=$order_product->book->price_after_offer ? $order_product->book->price_after_offer : $order_product->book->price;
             $data['total_price'] = ($data['price_after_offer'] ? $data['price_after_offer'] : $data['price']) * $data['quantity'];
             $order_products = OrderProduct::create($data);
             $new_quantity_book_id =  ($order_product->book->quantity) - ($order_product->quantity);
@@ -49,50 +64,13 @@ class OrderController extends Controller
                 'stock' => 1,
             ]);
        }
-       Card::where('user_id',$user_id)->update(['status' =>'completed']);
-
+        Card::where('user_id',$user_id)->update(['status' =>'completed']);
         OrderProduct::where('order_id',$order->id)->chunk(20,function($data){
         dispatch(new SendMails($data));
     });
-
       return redirect()->route('order.details')->with([
         'success' => 'الدفع تم بنجاح , شكرا لك و لقد تلقنيا الطلب و سوف يتم توصيله لك في الموعد المحدد '
     ]);
-    }
-
-    public function store_address(StoreCheckRequest $request)
-    {
-        $user_id=Auth::user()->id;
-        $number_order=rand ( 10000 , 99999 );
-        session()->put('number_order',$number_order);
-       $order= Order::create([
-            'user_id'=> $user_id,
-            'number_order'=>$number_order,
-            ...$request->except('_token')
-        ]);
-
-        if($request->status == "كاش")
-        {
-            return redirect()->route('order.store',$request->status);
-        }
-        else
-        {
-            return redirect()->route('payment.index');
-        }
-    }
-
-    public function edit_address($id)
-    {
-        $address= Order::where('id',$id)->first();
-        return view('frontend.edit_address.index', compact('address'));
-
-    }
-
-    public function update_address(Request $request,$id)
-    {
-        $data=$request->except('_method','_token');
-        Order::where('id',$id)->update($data);
-        return redirect()->back();
     }
 
     public function details_order()
@@ -112,8 +90,8 @@ class OrderController extends Controller
 
     public function delete_order_for_user(Request $request ,$id)
     {
-     OrderProduct::where('id',$id)->delete();
-     return redirect()->back()->with('success','تم بنجاح حذف الطلب');
+         OrderProduct::where('id',$id)->delete();
+         return redirect()->back()->with('success','تم بنجاح حذف الطلب');
     }
 
     public function search_page()

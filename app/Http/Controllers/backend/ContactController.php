@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\backend;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\contact\StoreContactRequest;
 use App\Models\Contact;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class ContactController extends Controller
 {

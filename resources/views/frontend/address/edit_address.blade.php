@@ -1,11 +1,11 @@
 @extends('frontend.layouts.master')
-@section('title', 'اتمام الطلب');
+@section('title', ' تعديل العنوان ');
 @section('content_page')
     <main>
         <x-navbar-component message="تعديل العنوان " />
-        <section class="section-container my-5 py-5 d-lg-flex">
+        <section class="section-container my-5 py-5 d-lg-flex text-center">
             <div class="checkout__form-cont w-50 px-3 mb-5">
-                <form class="checkout__form" action="{{ route('order.update.address',$address->id) }}" method="post">
+                <form class="checkout__form" action="{{ route('address.update',$address) }}" method="post">
                     @method('put')
                     @csrf
                     <div class="d-flex gap-3 mb-3">

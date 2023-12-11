@@ -8,114 +8,71 @@
         ?>
         <x-navbar-component message="إتمام الطلب"/>
 
+        <br>
+
+        <div class="text-center">
+            <a href="{{route('address.create')}}" type="button" class="btn btn-primary btn-lg">اضافة عنوان جديد </a>
+        </div>
+
+        <br>
+
+        <div class="card-group">
+            @if($addresses)
+                @foreach($addresses as $address)
+                    <div class="card" >
+                        <div class="card-body">
+                            <h5 class="card-title">{{$address->city}}</h5>
+                            <p class="card-text">{{$address->address}}</p>
+                            <p class="card-text">{{$address->phone}}</p>
+                            <p class="card-text"><small class="text-muted">{{$address->created_at->diffForHumans(null, false, false)}}</small></p>
+                            <a href="{{route('address.edit',$address)}}"  class="btn btn-info">تعديل العنوان </a>
+                            <form action="{{route('address.destroy',$address)}}" method="post">
+                                    @method('delete')
+                                    @csrf
+                                    <a class="btn btn-danger">حذف العنوان</a>
+                             </form>
+                        </div>
+                    </div>
+                @endforeach
+            @endif
+        </div>
+
         <section class="section-container my-5 py-5 d-lg-flex">
+            <div class="checkout__order-details-cont w-50 px-3">
 
-            <div class="checkout__form-cont w-50 px-3 mb-5">
-                <h4>الفاتورة </h4>
-                <form class="checkout__form" action="{{ route('order.store_address') }}" method="post">
-                    @csrf
-                    <div class="mb-3">
-                        <label for="status" style="color:blue"> اختار طريقة الدفع <span
-                                class="required">*</span></label>
-                        <select name="status" id="status" class="form-control" required>
-                            <option style="display: none" value=""> اختار طريقة الدفع</option>
-                            <option value="كاش"> الدفع عند الاستلام طلبك</option>
-                            <option value="فيزا">باستخدام الفيزا</option>
-                            @error('status')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        </select>
-                    </div>
+            <form class="checkout__form" action="{{ route('order.status_payment') }}" method="post">
+                @csrf
 
-                    <div class="d-flex gap-3 mb-3">
-                        <div class="w-50">
-                            <label for="fname">الاسم الأول <span class="required">*</span></label>
-                            <input class="form__input" type="text" id="fname" name="fname" required>
-                            @error('fname')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="w-50">
-                            <label for="lname">الاسم الأخير <span class="required">*</span></label>
-                            <input class="form__input" type="text" id="lname" name="lname" required/>
-                            @error('lname')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="city">المدينة / المحافظة<span class="required">*</span></label>
-                        <select class="form-control" id="city" name="city">
-                            <option>المنيا</option>
-                            <option>المنوفية</option>
-                            <option>الإسكندرية</option>
-                            <option>الإسماعيلية</option>
-                            <option>كفر الشيخ</option>
-                            <option>أسوان</option>
-                            <option>أسيوط</option>
-                            <option>الأقصر</option>
-                            <option>الوادي الجديد</option>
-                            <option>شمال سيناء</option>
-                            <option>البحيرة</option>
-                            <option>بني سويف</option>
-                            <option>بورسعيد</option>
-                            <option>البحر الأحمر</option>
-                            <option>الجيزة</option>
-                            <option>الدقهلية</option>
-                            <option>جنوب سيناء</option>
-                            <option>دمياط</option>
-                            <option>سوهاج</option>
-                            <option>السويس</option>
-                            <option>الشرقية</option>
-                            <option>الغربية</option>
-                            <option>الفيوم</option>
-                            <option>القاهرة</option>
-                            <option>القليوبية</option>
-                            <option>قنا</option>
-                            <option>مطروح</option>
-                        </select>
-                        @error('city')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label for="address">العنوان بالكامل ( المنطقة -الشارع - رقم المنزل)<span
-                                class="required">*</span></label>
-                        <input class="form__input" name="address" placeholder="رقم المنزل او الشارع / الحي" type="text"
-                               id="address" required/>
+            <div class="mb-3">
+                <label for="status" style="color:blue"> اختار طريقة الدفع <span
+                        class="required">*</span></label>
+                <select name="status" id="status" class="form-control" required>
+                    <option style="display: none" value=""> اختار طريقة الدفع</option>
+                    <option value="كاش"> الدفع عند الاستلام طلبك</option>
+                    <option value="فيزا">باستخدام الفيزا</option>
+                    @error('status')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                </select>
+            </div>
+                <div class="mb-3">
+                    <label for="status" style="color:blue">   اختار عنوان التوصيل <span
+                            class="required">*</span></label>
+                    <select name="address" id="address" class="form-control" required>
+                        <option style="display: none" value=""> اختار عنوان التوصيل</option>
+                        @if($addresses)
+                            @foreach($addresses as $address)
+                                <option value="{{$address->id}}">{{$address->city." ".$address->address}} </option>
+                            @endforeach
+                        @endif
                         @error('address')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label for="phone">رقم الهاتف<span class="required">*</span></label>
-                        <input class="form__input" type="text" id="phone" name="phone" required/>
-                        @error('phone')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label for="email">البريد الإلكتروني (اختياري)<span class="required">*</span></label>
-                        <input class="form__input" type="email" id="email" name="email"
-                               value="{{ auth()->user()->email }}"/>
-                        @error('email')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
-                        <h2>معلومات اضافية</h2>
-                        <label for="note">ملاحظات الطلب (اختياري)<span class="required">*</span></label>
-                        <textarea class="form__input" placeholder="ملاحظات حول الطلب, مثال: ملحوظة خاصة بتسليم الطلب."
-                                  type="text"
-                                  id="note" name="note"></textarea>
-                        @error('note')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <button class="primary-button w-100 py-2">تاكيد الطلب</button>
-                </form>
+                    </select>
+                </div>
+                <button class="primary-button w-100 py-2">تاكيد الطلب</button>
+            </form>
             </div>
-
             <div class="checkout__order-details-cont w-50 px-3">
                 <h4>طلبك</h4>
                 <div>
@@ -169,9 +126,8 @@
                 </div>
 
                 <img src="{{ asset('assets/images/Paypal-logo.png') }}" alt="HTML5 Icon"
-                     style="width:400px;height:200px;">
+                     style="width:300px;height:180px;">
             </div>
-
         </section>
     </main>
 @endsection

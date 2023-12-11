@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\backend;
 
-use App\Http\Requests\slider\SliderUpdateRequest;
-use App\Models\Slider;
-use App\Http\traits\media;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\slider\SliderStoreRequest;
+use App\Http\Requests\slider\SliderUpdateRequest;
+use App\Http\traits\media;
+use App\Models\Slider;
 
 class SliderController extends Controller
 {

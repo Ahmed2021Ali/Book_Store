@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\backend;
 
-use App\Models\Banner;
-use App\Http\traits\media;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\slider\SliderStoreRequest;
 use App\Http\Requests\slider\SliderUpdateRequest;
+use App\Http\traits\media;
+use App\Models\Banner;
 
 class BannerController extends Controller
 {
