@@ -37,7 +37,7 @@
 
                     <div class="d-flex w-100 gap-2 mb-3">
                         <div class="single-product__quanitity position-relative">
-                            <form action="{{ route('Card.add', $book->id) }}" method="post">
+                            <form action="{{ route('card.add', $book->id) }}" method="post">
                                 @csrf
                                 <input class="single-product__input text-center px-3" style="width:100px" type="number"
                                     name="quantity" value="1" min="1" placeholder="---">
@@ -48,7 +48,7 @@
                     </div>
 
                     <div class="single-product__favourite d-flex align-items-center gap-2 mb-4">
-                        <a href="{{ route('fav.store', $book->id) }}"><i class="fa-regular fa-heart"></i></a>
+                        <a href="{{ route('fav.store', $book) }}"><i class="fa-regular fa-heart"></i></a>
                         اضافة للمفضلة
                     </div>
                 </div>
@@ -189,7 +189,7 @@
                 <?php $encryptedId = Crypt::encrypt($book->id) ?>
                     <div class="products__item col-6 col-md-4 col-lg-3 mb-5">
                         <div class="product__header mb-3">
-                            <a href="{{ route('single_book', $encryptedId) }}">
+                            <a href="{{ route('book', $encryptedId) }}">
                                 <div class="product__img-cont">
                                     <img class="product__img w-100 h-100 object-fit-cover"
                                         src="\assets\images\book\{{ $book->image }}" data-id="white" />
@@ -205,7 +205,7 @@
                             </div>
                         </div>
                         <div class="product__title text-center">
-                            <a class="text-black text-decoration-none" href="{{ route('single_book', $encryptedId) }}">
+                            <a class="text-black text-decoration-none" href="{{ route('book', $encryptedId) }}">
                                 {{ $book->title }}
                             </a>
                         </div>

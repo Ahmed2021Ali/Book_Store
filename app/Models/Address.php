@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AddressOreder extends Model
+class Address extends Model
 {
     use HasFactory;
 
+    protected $table = 'address';
     protected $fillable = [
         'fname',
         'lname',
@@ -21,16 +22,18 @@ class AddressOreder extends Model
         'number_order'
     ];
 
-    protected $with=['book','user'];
+    protected $with = ['book', 'user'];
 
     public function book()
     {
         return $this->belongsTo(Book::class);
     }
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
     public function order_product()
     {
         return $this->hasMany(OrderProduct::class);

@@ -50,7 +50,7 @@
                 <?php $encryptedId = Crypt::encrypt($offer->id); ?>
                     <div class="products__item">
                         <div class="product__header mb-3">
-                            <a href="{{ route('single_book', $encryptedId) }}">
+                            <a href="{{ route('book', $encryptedId) }}">
                                 <div class="product__img-cont">
                                     <img class="product__img w-100 h-100 object-fit-cover"
                                         src="assets\images\book\{{ $offer->image }}" data-id="white">
@@ -60,12 +60,12 @@
                                 وفر {{ $offer->offer }}%
                             </div>
 
-                            <a href="{{ route('fav.store', $offer->id) }}"
+                            <a href="{{ route('fav.store', $offer) }}"
                                 class="product__favourite position-absolute top-0 end-0 m-1 rounded-circle d-flex justify-content-center align-items-center bg-white">
                                 <i class="fa-regular fa-heart"></i></a>
                         </div>
                         <div class="product__title text-center">
-                            <a class="text-black text-decoration-none" href="{{ route('single_book', $encryptedId) }}">
+                            <a class="text-black text-decoration-none" href="{{ route('book', $encryptedId) }}">
                                 {{ $offer->title }}
                             </a>
                         </div>
@@ -110,7 +110,7 @@
                 <?php $encryptedId = Crypt::encrypt($bestseller->id); ?>
                     <div class="products__item">
                         <div class="product__header mb-3">
-                            <a href="{{ route('single_book', $encryptedId) }}">
+                            <a href="{{ route('book', $encryptedId) }}">
                                 <div class="product__img-cont">
                                     <img class="product__img w-100 h-100 object-fit-cover"
                                         src="assets\images\book\{{ $bestseller->image }}" data-id="white">
@@ -120,14 +120,14 @@
                                 وفر {{ $bestseller->offer }}%
                             </div>
                             <div>
-                                <a href="{{ route('fav.store', $bestseller->id) }}"
+                                <a href="{{ route('fav.store', $bestseller) }}"
                                     class="product__favourite position-absolute top-0 end-0 m-1 rounded-circle d-flex justify-content-center align-items-center bg-white">
                                     <i class="fa-regular fa-heart"></i></a>
                             </div>
                         </div>
                         <div class="product__title text-center">
                             <a class="text-black text-decoration-none"
-                                href="{{ route('single_book', $encryptedId) }}">
+                                href="{{ route('book', $encryptedId) }}">
                                 {{ $bestseller->title }}
                             </a>
                         </div>
@@ -160,7 +160,7 @@
                 <?php $encryptedId = Crypt::encrypt($newly->id); ?>
                     <div class="products__item">
                         <div class="product__header mb-3">
-                            <a href="{{ route('single_book', $encryptedId) }}">
+                            <a href="{{ route('book', $encryptedId) }}">
                                 <div class="product__img-cont">
                                     <img class="product__img w-100 h-100 object-fit-cover"
                                         src="assets\images\book\{{ $newly->image }}" data-id="white">
@@ -170,13 +170,13 @@
                                 وفر {{ $newly->offer }}%
                             </div>
                             <div>
-                                <a href="{{ route('fav.store', $newly->id) }}"
+                                <a href="{{ route('fav.store', $newly) }}"
                                     class="product__favourite position-absolute top-0 end-0 m-1 rounded-circle d-flex justify-content-center align-items-center bg-white">
                                     <i class="fa-regular fa-heart"></i></a>
                             </div>
                         </div>
                         <div class="product__title text-center">
-                            <a class="text-black text-decoration-none" href="{{ route('single_book', $encryptedId) }}">
+                            <a class="text-black text-decoration-none" href="{{ route('book', $encryptedId) }}">
                                 {{ $newly->title }}
                             </a>
                         </div>

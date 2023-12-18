@@ -19,18 +19,20 @@
         <div class="card-group">
             @if($addresses)
                 @foreach($addresses as $address)
-                    <div class="card" >
+                    <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">{{$address->city}}</h5>
                             <p class="card-text">{{$address->address}}</p>
                             <p class="card-text">{{$address->phone}}</p>
-                            <p class="card-text"><small class="text-muted">{{$address->created_at->diffForHumans(null, false, false)}}</small></p>
-                            <a href="{{route('address.edit',$address)}}"  class="btn btn-info">تعديل العنوان </a>
+                            <p class="card-text"><small
+                                    class="text-muted">{{$address->created_at->diffForHumans(null, false, false)}}</small>
+                            </p>
+                            <a href="{{route('address.edit',$address)}}" class="btn btn-info">تعديل العنوان </a>
                             <form action="{{route('address.destroy',$address)}}" method="post">
-                                    @method('delete')
-                                    @csrf
-                                    <a class="btn btn-danger">حذف العنوان</a>
-                             </form>
+                                @method('delete')
+                                @csrf
+                                <a class="btn btn-danger">حذف العنوان</a>
+                            </form>
                         </div>
                     </div>
                 @endforeach
@@ -40,38 +42,38 @@
         <section class="section-container my-5 py-5 d-lg-flex">
             <div class="checkout__order-details-cont w-50 px-3">
 
-            <form class="checkout__form" action="{{ route('order.status_payment') }}" method="post">
-                @csrf
+                <form class="checkout__form" action="{{ route('order.status_payment') }}" method="post">
+                    @csrf
 
-            <div class="mb-3">
-                <label for="status" style="color:blue"> اختار طريقة الدفع <span
-                        class="required">*</span></label>
-                <select name="status" id="status" class="form-control" required>
-                    <option style="display: none" value=""> اختار طريقة الدفع</option>
-                    <option value="كاش"> الدفع عند الاستلام طلبك</option>
-                    <option value="فيزا">باستخدام الفيزا</option>
-                    @error('status')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-                </select>
-            </div>
-                <div class="mb-3">
-                    <label for="status" style="color:blue">   اختار عنوان التوصيل <span
-                            class="required">*</span></label>
-                    <select name="address" id="address" class="form-control" required>
-                        <option style="display: none" value=""> اختار عنوان التوصيل</option>
-                        @if($addresses)
-                            @foreach($addresses as $address)
-                                <option value="{{$address->id}}">{{$address->city." ".$address->address}} </option>
-                            @endforeach
-                        @endif
-                        @error('address')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-                    </select>
-                </div>
-                <button class="primary-button w-100 py-2">تاكيد الطلب</button>
-            </form>
+                    <div class="mb-3">
+                        <label for="status" style="color:blue"> اختار طريقة الدفع <span
+                                class="required">*</span></label>
+                        <select name="statusPayment" id="status" class="form-control" required>
+                            <option style="display: none" value=""> اختار طريقة الدفع</option>
+                            <option value="كاش"> الدفع عند الاستلام طلبك</option>
+                            <option value="فيزا"> باستخدام باي بال </option>
+                            @error('status')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="status" style="color:blue"> اختار عنوان التوصيل <span
+                                class="required">*</span></label>
+                        <select name="address_id" id="address" class="form-control" required>
+                            <option style="display: none" value=""> اختار عنوان التوصيل</option>
+                            @if($addresses)
+                                @foreach($addresses as $address)
+                                    <option value="{{$address->id}}">{{$address->city." ".$address->address}} </option>
+                                @endforeach
+                            @endif
+                            @error('address')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </select>
+                    </div>
+                    <button class="primary-button w-100 py-2">تاكيد الطلب</button>
+                </form>
             </div>
             <div class="checkout__order-details-cont w-50 px-3">
                 <h4>طلبك</h4>

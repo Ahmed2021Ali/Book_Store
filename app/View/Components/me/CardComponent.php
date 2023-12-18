@@ -27,8 +27,8 @@ class CardComponent extends Component
         if(isset(Auth::user()->id))
         {
             $user_id=Auth::user()->id;
-            $card=Card::where('user_id',$user_id)->where('status','penning')->get();
-            return view('components.me.Card-component',compact('card'));
+            $cards=Card::where('user_id',$user_id)->where('status','penning')->get();
+            return view('components.me.Card-component',compact('cards'));
         }
         else
         {

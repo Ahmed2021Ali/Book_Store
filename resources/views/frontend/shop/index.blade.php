@@ -27,7 +27,7 @@
                     <?php $encryptedId = Crypt::encrypt($book->id); ?>
                         <div class="products__item col-6 col-md-4 col-lg-3 mb-5">
                             <div class="product__header mb-3">
-                                <a href="{{ route('single_book', $encryptedId) }}">
+                                <a href="{{ route('book', $encryptedId) }}">
                                     <div class="product__img-cont">
                                         <img class="product__img w-100 h-100 object-fit-cover"
                                             src="\assets\images\book\{{ $book->image }}" data-id="white" />

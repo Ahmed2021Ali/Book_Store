@@ -13,7 +13,6 @@ class SocialiteController extends Controller
     {
         return Socialite::driver($provider)->redirect();
     }
-
     public function redirect($provider)
     {
         $socialite=   Socialite::driver($provider)->stateless()->user();

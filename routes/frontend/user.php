@@ -20,49 +20,51 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::controller(HomepageController::class)->prefix('HomePage')->group(function(){
-
-        Route::get('/','index')->name('homepage');
-        Route::get('/Show_all_Books','Show_all_Books')->name('Show_all_Books');
-        Route::get('/ShowBooks/{encryptedId}','show_book')->name('show_book');
-        Route::get('/SingleBooks/{encryptedId}','single_book')->name('single_book');
-        Route::get('/branches','branches')->name('branches');
-        Route::get('/about_us','about_us')->name('about_us');
-        Route::get('/contact_us','contact_us')->name('contact_us');
-        Route::get('/refund_policy','refund_policy')->name('refund_policy');
-        Route::post('/search','search')->name('search');
+Route::controller(HomepageController::class)->prefix('HomePage')->group(function () {
+    Route::get('/', 'index')->name('homepage');
+    Route::get('/books/all', 'showAllBooks')->name('books.all');
+    Route::get('/books/category/{encryptedId}', 'booksCategory')->name('books.category');
+    Route::get('/book/{encryptedId}', 'book')->name('book');
+    Route::get('/branches', 'branches')->name('branches');
+    Route::view('about_us', 'frontend.about_us.index')->name('about_us');
+    Route::view('contact_us', 'frontend.contact_us.index')->name('contact_us');
+    Route::view('refund_policy', 'frontend.refund-policy.index')->name('refund_policy');
+    Route::post('/search', 'search')->name('search');
 });
 
 Route::middleware(['auth'])->prefix('HomePage')->group(function () {
 
-    Route::get('/account_details',[HomepageController::class,'account_details'])->name('account_details');
+    Route::view('account_details', 'frontend.account_details.index')->name('account_details');
     Route::PUT('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-    Route::post('/AddCard/{id}',[CardController::class,'AddCard'])->name('Card.add');
-    Route::delete('/DestroyCard/{id}',[CardController::class,'DestroyCard'])->name('Card.Destroy');
+    Route::post('/AddCard/{id}', [CardController::class, 'addCard'])->name('card.add');
+    Route::delete('/destroyCard/{card}', [CardController::class, 'destroyCard'])->name('card.destroy');
 
-    Route::controller(OrderController::class)->as('order.')->group(function(){
+    Route::controller(OrderController::class)->as('order.')->group(function () {
 
-        Route::get('order/create','create_order')->name('create');
-        Route::get('order/store{status}','store_order')->name('store');
-        Route::post('order/status/payment','status_payment')->name('status_payment');
+        Route::get('order/create', 'create')->name('create');
+        Route::get('order/store{status}', 'store')->name('store');
+        Route::post('order/status/payment', 'status_payment')->name('status_payment');
 
-        Route::get('order/details','details_order')->name('details');
-        Route::get('order/show','show_order_user')->name('show');
-        Route::delete('order/destroy/{id}','delete_order_for_user')->name('destroy');
-        Route::get('order/search_page','search_page')->name('search_page');
-        Route::get('order/search','search_order')->name('search');
+        Route::get('order/details', 'details_order')->name('details');
+        Route::get('order/show', 'show_order_user')->name('show');
+        Route::delete('order/destroy/{id}', 'delete_order_for_user')->name('destroy');
+        Route::get('order/search_page', 'search_page')->name('search_page');
+        Route::get('order/search', 'search_order')->name('search');
     });
-    Route::controller(FavController::class)->as('fav.')->group(function(){
-        Route::get('fav/store/{id}','store')->name('store');
-        Route::get('fav/show','show')->name('show');
-        Route::delete('fav/destroy/{id}','destroy')->name('destroy');
+
+    Route::controller(FavController::class)->prefix('Favorite/books')->as('fav.')->group(function () {
+        Route::get('/store/{book}', 'store')->name('store');
+        Route::get('/show', 'show')->name('show');
+        Route::delete('/destroy/{fav}', 'delete')->name('delete');
     });
-    Route::controller(PaypalController::class)->as('payment.')->group(function(){
-        Route::get('payment','payment')->name('index');
-        Route::get('payment/cancel','cancel')->name('cancel');
-        Route::get('payment/success','success')->name('success');
-        });
-    Route::resource('/address', \App\Http\Controllers\frontend\AddressOrederController::class)->except('show','index');
+
+    Route::controller(PaypalController::class)->as('payment.')->group(function () {
+        Route::get('payment', 'payment')->name('index');
+        Route::get('payment/cancel', 'cancel')->name('cancel');
+        Route::get('payment/success', 'success')->name('success');
+    });
+
+    Route::resource('/address', \App\Http\Controllers\frontend\AddressController::class)->except('show', 'index');
 
 });
 

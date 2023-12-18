@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Fav extends Model
 {
     use HasFactory;
+    protected $fillable=['book_id','user_id'];
 
     public function book()
     {

@@ -21,7 +21,7 @@
                         <?php $encryptedId = Crypt::encrypt($fav->book->id); ?>
                             <tr>
                                 <td class="d-block d-md-table-cell">
-                                    <form action="{{ route('fav.destroy', $fav->book->id) }}" method="post">
+                                    <form action="{{ route('fav.delete', $fav) }}" method="post">
                                         @method('delete')
                                         @csrf
                                         <button class="favourites__remove m-auto"><i class="fa-solid fa-xmark"></i></button>
@@ -32,7 +32,7 @@
                                     <img src="\assets\images\book\{{ $fav->book->image }}" alt="" />
                                 </td>
                                 <td class="d-block d-md-table-cell">
-                                    <a href="{{ route('single_book', $encryptedId) }}"> {{ $fav->book->title }} </a>
+                                    <a href="{{ route('book', $encryptedId) }}"> {{ $fav->book->title }} </a>
                                 </td>
                                 <td class="d-block d-md-table-cell">
                                     <span class="product__price product__price--old">{{ $fav->book->price }} جنية</span>
