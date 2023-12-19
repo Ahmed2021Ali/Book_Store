@@ -80,7 +80,6 @@ class OrderController extends Controller
     public function searchOrder(StoreSearchRequest $request)
     {
         $address = Address::where('number_order', $request->number_order)->where('email', $request->email)->first();
-
         if ($address) {
             $orders= Order::where('address_id', $address->id)->get();
             return view('frontend.order-details.index', compact('address', 'orders'));
@@ -88,7 +87,6 @@ class OrderController extends Controller
             return redirect()->back()->with('error', 'خطا في ادخال البيانات');
         }
     }
-
     public function showAllOrder()
     {
         return view('backend.order.index',['orders' => Order::paginate(10)]);
