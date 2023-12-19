@@ -11,40 +11,32 @@ use App\Http\Requests\branch\UpdateBranchRequest;
 
 class BranchController extends Controller
 {
+    public $branches;
+    public function __construct()
+    {
+        $this->branches = new Branch();
+    }
 
     public function index()
     {
-        $branches=Branch::paginate(7);
-        return view('backend.branch.index',compact('branches'));
-    }
-
-    public function create()
-    {
-        return view('backend.branch.create');
+        return view('backend.branch.index',['branches' => $this->branches->gatAllBranches()]);
     }
 
     public function store(StoreBranchRequest $request)
     {
-        $data = $request->except('_token');
-        Branch::insert($data);
+        Branch::create($request->validated());
         return redirect()->back()->with(['success'=>'تم بنجاح اضافة العنوان']);
     }
-    
-    public function edit(Branch $branch)
-    {
-        return view('backend.branch.edit',compact('branch'));
-    }
 
-    public function update(UpdateBranchRequest $request, $id)
+    public function update(UpdateBranchRequest $request, Branch $branch)
     {
-        $data = $request->except('_token','_method');
-        Branch::where('id',$id)->update($data);
+        $branch->update($request->validated());
        return redirect()->back()->with(['success'=>'تم بنجاح تحديث العنوان ']);
     }
 
-    public function destroy($id)
+    public function destroy(Branch $branch)
     {
-        Branch::where('id',$id)->delete();
+        $branch->delete();
         return redirect()->back()->with(['success'=>' تم بنجاح حذف العنوان']);
     }
 }

@@ -62,7 +62,7 @@
             </table>
 
         </div>
-        {{ $books->links() }}
+{{--        {{ $books->links() }}--}}
    </div>
 
 @stop

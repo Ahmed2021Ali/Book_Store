@@ -28,24 +28,28 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($category as $categories)
+                    @foreach ($categories as $category)
                         <tr>
-                            <td>{{ $categories->id }}</td>
-                            <td>{{ $categories->title }}</td>
+                            <td>{{ $category->id }}</td>
+                            <td>{{ $category->title }}</td>
                             <td>
-                                <x-adminlte-modal id="edit_{{$categories->id}}" title="Edit Category" theme="teal"
+                                {{--  edit  --}}
+
+                                <x-adminlte-modal id="edit_{{$category->id}}" title="Edit Category" theme="teal"
                                                   icon="fas fa-bolt" size='lg' disable-animations>
-                                    @include('backend.category.edit',['category'=>$categories])
+                                    @include('backend.category.edit',['category'=>$category])
                                     <x-slot name="footerSlot">
                                     </x-slot>
                                 </x-adminlte-modal>
+
                                 <x-adminlte-button label="Edit Category" data-toggle="modal"
-                                                   data-target="#edit_{{$categories->id}}" class="bg-teal"/>
+                                                   data-target="#edit_{{$category->id}}" class="bg-teal"/>
+                                {{-- end  edit  --}}
 
                                 {{--  delete  --}}
-                                <x-adminlte-modal id="delete_{{ $categories->id }}" title="Delete" theme="purple"
+                                <x-adminlte-modal id="delete_{{ $category->id }}" title="Delete" theme="purple"
                                                   icon="fas fa-bolt" size='lg' disable-animations>
-                                    <form action="{{ route('category.destroy', $categories->id) }}" method="post" class="d-inline">
+                                    <form action="{{ route('category.destroy', $category) }}" method="post" class="d-inline">
                                         @method('delete')
                                         @csrf
                                         <h3> Are you sure to delete ? </h3>
@@ -55,17 +59,17 @@
                                     </x-slot>
                                 </x-adminlte-modal>
                                 <x-adminlte-button label="Delete" data-toggle="modal"
-                                                   data-target="#delete_{{ $categories->id }}" class="bg-danger"/>
+                                                   data-target="#delete_{{ $category->id }}" class="bg-danger"/>
                                 {{-- End  delete  --}}
 
-                                <a href="{{ route('category.show', $categories->id) }}" class="btn btn-info">Show Books in the categories</a>
+                                <a href="{{ route('category.show', $category) }}" class="btn btn-info">Show Books in the categories</a>
                             </td>
                         </tr>
                     @endforeach
 
                 </tbody>
             </table>
-           {{ $category->links() }}
+           {{ $categories->links() }}
       </div>
     </div>
 @stop

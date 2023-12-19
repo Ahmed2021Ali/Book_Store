@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Category extends Model
 {
     use HasFactory;
+    protected $fillable=['title'];
 
     protected $with=['book'];
 
@@ -18,6 +19,6 @@ class Category extends Model
     }
     public function getAllCategories()
     {
-        return Category::all();
+        return Category::paginate(8);
     }
 }

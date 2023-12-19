@@ -1,4 +1,4 @@
-<form method="POST" action="{{ route('branch.update', $branch->id) }}"
+<form method="POST" action="{{ route('branch.update', $branch) }}"
       enctype="multipart/form-data">
     @method('PUT')
     @csrf

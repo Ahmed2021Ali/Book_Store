@@ -11,67 +11,41 @@ use App\Http\Requests\category\UpdateCategoryRequest;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public $categories;
+    public function __construct()
+    {
+        $this->categories = new Category();
+    }
+
     public function index()
     {
-        $category=Category::paginate(7);
-        return view('backend.category.index',compact('category'));
+        return view('backend.category.index',[
+            'categories' => $this->categories->getAllCategories(),
+            ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('backend.category.create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreCategoryRequest $request)
     {
-        $data = $request->except('_token');
-        Category::insert($data);
+        Category::create($request->validated());
         return redirect()->back()->with(['success'=>'تم بنجاح اضافة القسم']);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show($id)
+    public function show(Category $category)
     {
-        $books=Book::where('category_id',$id)->paginate(6);
-        return view('backend.books.index',compact('books'));
+        return view('backend.books.index',[
+            'books'=>$category->book
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Category $category)
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
-        return view('backend.category.edit',compact('category'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, UpdateCategoryRequest $category,$id)
-    {
-        $data = $request->except('_token','_method');
-        Category::where('id',$id)->update($data);
+        $category->update($request->validated());
         return redirect()->back()->with(['success'=>' تم بنجاح تحديث القسم']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Category $category)
     {
-        $id=$category->id;
-        Category::where('id',$id)->delete();
+        $category->delete();
         return redirect()->back()->with(['success'=>' تم بنجاح حذف القسم']);
     }
 }
