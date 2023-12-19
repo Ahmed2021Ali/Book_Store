@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Card;
-use App\Models\OrderProduct;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Str;

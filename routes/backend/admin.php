@@ -45,8 +45,7 @@ Route::middleware(['auth','Check.Type'])->prefix('Dashboard.Admin')->group( func
 
     Route::resource('/branch',BranchController::class)->except('show');
 
-    Route::get('/show_all_order',[OrderController::class,'show_all_order_for_admin'])->name('show_all_order');
-    Route::delete('/delete_order/{id}',[OrderController::class,'delete_order_for_admin'])->name('delete_order');
+
 
 
 });

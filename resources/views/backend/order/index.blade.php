@@ -27,7 +27,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($order_products as $order)
+                    @foreach ($orders as $order)
                         <tr>
                             <td>{{ $order->id }}</td>
                             <td>
@@ -46,10 +46,10 @@
                                 @if($order->delivery_status_of_orders != null)
                                     تم التوسيل بنجاح
                                 @else
-                                <form action="{{ route('delete_order', $order->id) }}" method="post" class="d-inline">
+                                <form action="{{ route('order.delete', $order) }}" method="post" class="d-inline">
                                     @method('delete')
                                     @csrf
-                                    <button class=" btn btn-success"> Change Status </button>
+                                    <button class=" btn btn-success"> Delete Order </button>
                                 </form>
                                 @endif
                             </td>

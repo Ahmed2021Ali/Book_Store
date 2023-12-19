@@ -7,12 +7,13 @@ use App\Models\Order;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class OrderProduct extends Model
+class Order extends Model
 {
     use HasFactory;
+    protected $table='orders';
 
     protected $fillable = [
-        'order_id',
+        'address_id',
         'user_id',
         'book_id',
         'quantity',
@@ -20,7 +21,7 @@ class OrderProduct extends Model
         'offer',
         'price_after_offer',
         'total_price',
-        'status',
+        'status_payment',
         'delivery_status_of_orders'
     ];
     public function order()

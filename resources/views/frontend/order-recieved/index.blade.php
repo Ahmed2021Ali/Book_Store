@@ -15,22 +15,22 @@
                     سيقوم أحد ممثلي خدمة العملاء بالتواصل معك لتأكيد الطلب
                 </p>
                 <p>برجاء الرد على الأرقام الغير مسجلة</p>
-                <a href="{{ route('Show_all_Books') }}"><button class="primary-button">تصفح منتجات اخري</button></a>
+                <a href="{{ route('books.all') }}"><button class="primary-button">تصفح منتجات اخري</button></a>
             </div>
             <div>
                 <p>شكرًا لك. تم استلام طلبك.</p>
                 <div class="d-flex flex-wrap gap-2">
                   <div class="success__details">
                     <p class="success__small">رقم الطلب:</p>
-                    <p class="fw-bolder">{{ $order->number_order }}</p>
+                    <p class="fw-bolder">{{ $address->number_order }}</p>
                   </div>
                   <div class="success__details">
                     <p class="success__small">التاريخ:</p>
-                    <p class="fw-bolder">{{ $order->created_at->format('Y-m-d') }}</p>
+                    <p class="fw-bolder">{{ $address->created_at->format('Y-m-d') }}</p>
                   </div>
                   <div class="success__details">
                     <p class="success__small">البريد الإلكتروني:</p>
-                    <p class="fw-bolder">{{ $order->email }}</p>
+                    <p class="fw-bolder">{{ $address->email }}</p>
                   </div>
                 </div>
               </div>
@@ -48,29 +48,29 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($products as $product)
-                        <?php $encryptedId = Crypt::encrypt($product->book->id); ?>
+                    @foreach ($orders as $order)
+                        <?php $encryptedId = Crypt::encrypt($order->book->id); ?>
                         <tr>
                             <td>
                                 <div>
                                     <a href="{{ route('single_book', $encryptedId) }}">
-                                        <h5>{{ $product->book->title}}</h5>
+                                        <h5>{{ $order->book->title}}</h5>
                                     </a>
                                 </div>
                                 <div>
                                     <span class="fw-bold">المؤلف</span>
-                                    <span>{{ $product->book->author_name }}</span>
+                                    <span>{{ $order->book->author_name }}</span>
                                 </div>
                                 <div>
                                     <span class="fw-bold"> تاريخ الطلب</span>
-                                    <span>{{ $product->created_at->format('Y-m-d') }}</span>
+                                    <span>{{ $order->created_at->format('Y-m-d') }}</span>
                                 </div>
                             </td>
-                            <td>{{ $product->quantity }}</td>
-                            <td>{{ $product->total_price }}.00
+                            <td>{{ $order->quantity }}</td>
+                            <td>{{ $order->total_price }}.00
                                 جنيه</td>
                         </tr>
-                        <?php $total_price += ($product->price_after_offer ? $product->price_after_offer : $product->price) * $product->quantity; ?>
+                        <?php $total_price += ($order->price_after_offer ? $order->price_after_offer : $order->price) * $order->quantity; ?>
                     @endforeach
                     <tr>
                         <th>الإجمالي:</th>
@@ -83,14 +83,14 @@
         <section class="section-container mb-5">
             <h2>عنوان الفاتورة</h2>
             <div class="border p-3 rounded-3">
-                <p class="mb-1">{{ $order->fname }} {{ $order->lname }} </p>
-                <p class="mb-1">{{ $order->address }} </p>
-                <p class="mb-1">{{ $order->city }}</p>
-                <p class="mb-1">{{ $order->phone }}</p>
-                <p class="mb-1">{{ $order->email }}</p>
+                <p class="mb-1">{{ $address->fname }} {{ $address->lname }} </p>
+                <p class="mb-1">{{ $address->address }} </p>
+                <p class="mb-1">{{ $address->city }}</p>
+                <p class="mb-1">{{ $address->phone }}</p>
+                <p class="mb-1">{{ $address->email }}</p>
             </div>
-            <a href="{{ route('order.edit.address',$order->id) }}" ><button type=b"utton" class="btn btn-danger">تعديل العنوان </button></a>
+            <a href="{{ route('order.edit.address',$address) }}" ><button type="button" class="btn btn-danger">تعديل العنوان </button></a>
         </section>
-        
+
     </main>
 @endsection

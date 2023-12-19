@@ -6,7 +6,6 @@ use App\Models\Fav;
 use App\Models\Card;
 use App\Models\Order;
 use App\Models\Category;
-use App\Models\OrderProduct;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -30,7 +29,7 @@ class Book extends Model
     }
     public function order_product()
     {
-        return $this->hasMany(OrderProduct::class);
+        return $this->hasMany(Order::class);
     }
 }
 

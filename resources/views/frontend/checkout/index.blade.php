@@ -42,7 +42,7 @@
         <section class="section-container my-5 py-5 d-lg-flex">
             <div class="checkout__order-details-cont w-50 px-3">
 
-                <form class="checkout__form" action="{{ route('order.status_payment') }}" method="post">
+                <form class="checkout__form" action="{{ route('order.status.payment') }}" method="post">
                     @csrf
 
                     <div class="mb-3">
@@ -50,8 +50,8 @@
                                 class="required">*</span></label>
                         <select name="statusPayment" id="status" class="form-control" required>
                             <option style="display: none" value=""> اختار طريقة الدفع</option>
-                            <option value="كاش"> الدفع عند الاستلام طلبك</option>
-                            <option value="فيزا"> باستخدام باي بال </option>
+                            <option value="الدفع_عند_الاستلام"> الدفع عند الاستلام طلبك</option>
+                            <option value="الدفع_استخدام_الفيزا"> باستخدام باي بال </option>
                             @error('status')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror

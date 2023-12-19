@@ -43,13 +43,13 @@ Route::middleware(['auth'])->prefix('HomePage')->group(function () {
 
         Route::get('order/create', 'create')->name('create');
         Route::get('order/store{status}', 'store')->name('store');
-        Route::post('order/status/payment', 'status_payment')->name('status_payment');
-
-        Route::get('order/details', 'details_order')->name('details');
-        Route::get('order/show', 'show_order_user')->name('show');
-        Route::delete('order/destroy/{id}', 'delete_order_for_user')->name('destroy');
-        Route::get('order/search_page', 'search_page')->name('search_page');
-        Route::get('order/search', 'search_order')->name('search');
+        Route::post('order/status/payment', 'statusPayment')->name('status.payment');
+        Route::get('order/details/{address_id}', 'detailsOrder')->name('details');
+        Route::get('order/user/show', 'showOrderUser')->name('show');
+        Route::delete('order/delete/{order}', 'deleteOrder')->name('delete');
+        Route::view('order/search/page', 'frontend.track-order.index')->name('search.page');
+        Route::post('order/search', 'searchOrder')->name('search');
+        Route::get('order/all', 'showAllOrder')->name('all');
     });
 
     Route::controller(FavController::class)->prefix('Favorite/books')->as('fav.')->group(function () {

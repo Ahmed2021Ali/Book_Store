@@ -19,7 +19,8 @@ public function addCard(Request $request,$id)
 
     if( $quantity > 0 ) {
         $cards = Card::where(function ($query) use ($book_id)  {
-            $query->where('user_id',Auth::user()->id)->where('book_id',$book_id)->where('status','penning');
+            /* status -> 0 => book has existed in card but status->1 =>book has buy and exist in order  */
+            $query->where('user_id',Auth::user()->id)->where('book_id',$book_id)->where('status',0);
          })->first();
          $quantity_book=Book::select('quantity')->where('id',$book_id)->first();
 

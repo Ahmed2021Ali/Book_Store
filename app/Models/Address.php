@@ -36,6 +36,6 @@ class Address extends Model
 
     public function order_product()
     {
-        return $this->hasMany(OrderProduct::class);
+        return $this->hasMany(Order::class);
     }
 }
