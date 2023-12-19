@@ -1,5 +1,5 @@
 
-                    <form method="POST" action="{{ route('slider.update',$slider->id) }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('slider.update',$slider) }}" enctype="multipart/form-data">
                         @method('PUT')
                         @csrf
                         <div class="row mb-3">

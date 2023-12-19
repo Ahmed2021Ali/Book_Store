@@ -1,4 +1,4 @@
-<form method="POST" action="{{ route('FAQ.store') }}" enctype="multipart/form-data">
+<form method="POST" action="{{ route('Faq.store') }}" enctype="multipart/form-data">
     @csrf
     <div class="row mb-3">
         <label for="status"
@@ -54,7 +54,7 @@
     <div class="row mb-0">
         <div class="col-md-6 offset-md-4">
             <button type="submit" class="btn btn-primary">
-                {{ __('Add FAQ') }}
+                {{ __('Add Faq') }}
             </button>
         </div>
     </div>

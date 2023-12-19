@@ -63,6 +63,7 @@ class BookController extends Controller
             $this->deletePhoto($book->image, 'books');
             $photoName = $this->uploadPhoto($data['image'], 'books');
         }
+        $data['price_after_offer'] = $this->price_after_offer($data['price'], $data['offer']);
         $book->update([
             ...Arr::except($data,['image']),
             'image'=>isset($data['image']) ? $photoName : $book->image,

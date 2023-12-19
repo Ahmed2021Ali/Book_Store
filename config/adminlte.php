@@ -360,8 +360,8 @@ return [
             'route'  => 'contact.index',
         ],
         [
-            'text' => 'Show  FAQ',
-            'route'  => 'FAQ.index',
+            'text' => 'Show  Faq',
+            'route'  => 'Faq.index',
             'icon'    => 'fab fa-quora',
 
         ],

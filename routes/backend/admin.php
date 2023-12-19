@@ -3,7 +3,7 @@
 
 use App\Http\Controllers\frontend\OrderController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\backend\FAQController;
+use App\Http\Controllers\backend\FaqController;
 use App\Http\Controllers\backend\BookController;
 use App\Http\Controllers\backend\BannerController;
 use App\Http\Controllers\backend\BranchController;
@@ -37,11 +37,10 @@ Route::middleware(['auth','Check.Type'])->prefix('Dashboard.Admin')->group( func
 
     Route::resource('/contact',ContactController::class)->except('show');
 
-    Route::resource('/FAQ',FAQController::class)->except('show');
+    Route::resource('/Faq',FaqController::class)->except('show');
 
     Route::resource('/category',CategoryController::class);
 
-    Route::resource('/WishList',WishListController::class);  // waiting
 
     Route::resource('/branch',BranchController::class)->except('show');
 

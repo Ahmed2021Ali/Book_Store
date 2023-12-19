@@ -14,7 +14,7 @@
             <!-- small box -->
             <div class="small-box bg-info">
                 <div class="inner">
-                    <h3>25{{--  {{ $user_count }}  --}}</h3>
+                    <h3> {{ $user_count }}  </h3>
                     <p>User</p>
                 </div>
                 <div class="icon">
@@ -28,9 +28,9 @@
             <!-- small box -->
             <div class="small-box bg-success">
                 <div class="inner">
-                    <h3>50{{--  {{ $slider_count }}  --}}<sup style="font-size: 20px"></sup></h3>
+                    <h3>  {{ $order_count }}<sup style="font-size: 20px"></sup></h3>
 
-                    <p>sliders active Now</p>
+                    <p>Orders</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-stats-bars"></i>
@@ -43,9 +43,9 @@
             <!-- small box -->
             <div class="small-box bg-warning">
                 <div class="inner">
-                    <h3>50</h3>
+                    <h3>{{$book_count}}</h3>
 
-                    <p>book </p>
+                    <p>Book </p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-person-add"></i>

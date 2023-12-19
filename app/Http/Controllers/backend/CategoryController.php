@@ -12,6 +12,7 @@ use App\Http\Requests\category\UpdateCategoryRequest;
 class CategoryController extends Controller
 {
     public $categories;
+
     public function __construct()
     {
         $this->categories = new Category();
@@ -48,4 +49,5 @@ class CategoryController extends Controller
         $category->delete();
         return redirect()->back()->with(['success'=>' تم بنجاح حذف القسم']);
     }
+
 }

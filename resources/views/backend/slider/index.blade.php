@@ -31,7 +31,7 @@
                     <tr>
                         <td>{{ $slider->id }}</td>
                         <td>
-                            <img src="\assets\images\slider\{{ $slider->image }}" width="150px" height="50px" >
+                            <img src="\images\sliders\{{ $slider->image }}" width="150px" height="50px" >
                         </td>
                         <td>{{ $slider->status == 1 ? "معروضة ":"غير معروضة" }}</td>
                         <td>
@@ -47,7 +47,7 @@
                             {{--  delete  --}}
                             <x-adminlte-modal id="delete_{{ $slider->id }}" title="Delete" theme="purple"
                                               icon="fas fa-bolt" size='lg' disable-animations>
-                                <form action="{{ route('slider.destroy', $slider->id) }}" method="post"
+                                <form action="{{ route('slider.destroy', $slider) }}" method="post"
                                       class="d-inline">
                                     @method('delete')
                                     @csrf
@@ -67,7 +67,6 @@
 
             </tbody>
         </table>
-        {{ $sliders->links() }}
     </div>
 </div>
 @stop

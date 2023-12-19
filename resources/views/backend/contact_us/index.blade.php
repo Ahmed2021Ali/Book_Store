@@ -52,7 +52,7 @@
                                 {{--  delete  --}}
                                 <x-adminlte-modal id="delete_{{ $contact->id }}" title="Delete" theme="purple"
                                                   icon="fas fa-bolt" size='lg' disable-animations>
-                                    <form action="{{ route('contact.destroy', $contact->id) }}" method="post" class="d-inline">
+                                    <form action="{{ route('contact.destroy', $contact) }}" method="post" class="d-inline">
                                         @method('delete')
                                         @csrf
                                         <h3> Are you sure to delete ? </h3>

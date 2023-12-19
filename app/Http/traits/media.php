@@ -3,12 +3,14 @@
 namespace App\Http\traits;
 
 trait media {
+
     public function uploadPhoto($image,$folder)
     {
         $imageName = time().'.'.$image->getClientOriginalExtension();
         $image->move(public_path('images/'.$folder), $imageName);
         return $imageName;
     }
+
     public function deletePhoto($photo,$folder)
     {
         $photoPath=public_path('images/'.$folder).$photo;
@@ -28,4 +30,25 @@ trait media {
         }
 
     }
+
+    /*public function create($request,$model,$folderPhoto)
+    {
+        $data = $request->validated();
+        if($data['image'])
+        {
+            $PhotoName = $this->uploadPhoto($data['image'],$folderPhoto);
+            $data['image'] = $PhotoName;
+        }
+        \App\Models\$model::create($data);
+    }*/
+/*    public function update($request,$model,$folderPhoto)
+    {
+        $data = $request->validated();
+        if($data['image'])
+        {
+            $PhotoName = $this->uploadPhoto($data['image'],$folderPhoto);
+            $data['image'] = $PhotoName;
+        }
+        $model::create($data);
+    }*/
 }

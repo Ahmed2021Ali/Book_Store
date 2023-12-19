@@ -1,4 +1,4 @@
-<form method="POST" action="{{ route('contact.update',$contact->id) }}" enctype="multipart/form-data">
+<form method="POST" action="{{ route('contact.update',$contact) }}" enctype="multipart/form-data">
     @csrf
     @method('PUT')
         <label for="name"

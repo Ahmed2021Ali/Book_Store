@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Models\Book;
 use App\Models\Branch;
-use App\Models\FAQ;
+use App\Models\Faq;
 use App\Models\Order;
 use App\Models\Slider;
 use Illuminate\Http\Request;
@@ -40,7 +40,7 @@ class HomepageController extends Controller
     public function book($encryptedId)
     {
         $id = Crypt::decrypt($encryptedId);
-        $FAQ = FAQ::where('status', 1)->get();
+        $FAQ = Faq::where('status', 1)->get();
         $book = Book::where('id', $id)->first();
         $category_books = Book::where('category_id', $book->category_id)->take(4)->get();
         return view('frontend.single-product.index', compact('book', 'FAQ', 'category_books'));

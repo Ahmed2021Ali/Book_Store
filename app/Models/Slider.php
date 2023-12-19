@@ -12,4 +12,9 @@ class Slider extends Model
         'image',
         'status',
     ];
+
+    public function getAllSliders()
+    {
+        return Slider::all();
+    }
 }
