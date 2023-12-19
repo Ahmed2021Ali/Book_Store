@@ -4,6 +4,7 @@ namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\checkout\StoreCheckRequest;
+use App\Http\Requests\UpdateAddressRequest;
 use App\Models\Address;
 use App\Models\Order;
 use Illuminate\Http\Request;
@@ -33,16 +34,15 @@ class AddressController extends Controller
         return view('frontend.address.edit_address', compact('address'));
     }
 
-    public function update(Request $request, Address $address)
+    public function update(UpdateAddressRequest $request, Address $address)
     {
-        $data = $request->except('_method', '_token');
-        $address->update($data);
+        updateMethod($request, $address, null);
         return redirect()->back();
     }
 
     public function destroy(Address $address)
     {
-        $address->delete();
+        deleteMethod($address,null);
         return redirect()->route('order.create');
     }
 }

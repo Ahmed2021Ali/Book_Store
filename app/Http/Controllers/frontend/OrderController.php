@@ -73,7 +73,7 @@ class OrderController extends Controller
 
     public function deleteOrder(Order $order)
     {
-        $order->delete();
+        deleteMethod($order,null);
         return redirect()->back()->with('success', 'تم بنجاح حذف الطلب');
     }
 
@@ -87,6 +87,7 @@ class OrderController extends Controller
             return redirect()->back()->with('error', 'خطا في ادخال البيانات');
         }
     }
+
     public function showAllOrder()
     {
         return view('backend.order.index',['orders' => Order::paginate(10)]);

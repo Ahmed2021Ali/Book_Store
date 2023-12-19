@@ -51,7 +51,7 @@ public function addCard(Request $request,$id)
 
 public function destroyCard(Request $request,Card $card)
 {
-    $card->delete();
+    deleteMethod($card,null);
     return redirect()->back()->with('success',' تم بنجاح حذف الكتاب من السلة');
 }
 

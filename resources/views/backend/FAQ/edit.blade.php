@@ -1,4 +1,4 @@
-<form method="POST" action="{{ route('Faq.update',$faq) }}" enctype="multipart/form-data">
+<form method="POST" action="{{ route('Faq.update',$Faq) }}" enctype="multipart/form-data">
     @csrf
     @method('PUT')
     <div class="row mb-3">
@@ -7,8 +7,8 @@
 
         <div class="col-md-6">
             <select name="status" id="status" class="form-control">
-                <option {{ $faq->status == 1 ? 'selected' : '' }} value="1">تعرضها</option>
-                <option {{ $faq->status == 0 ? 'selected' : '' }} value="0">لا تعرضها</option>
+                <option {{ $Faq->status == 1 ? 'selected' : '' }} value="1">تعرضها</option>
+                <option {{ $Faq->status == 0 ? 'selected' : '' }} value="0">لا تعرضها</option>
             </select>
             @error('status')
             <span class="invalid-feedback" role="alert">
@@ -25,7 +25,7 @@
         <div class="col-md-6">
             <input id="question" type="text"
                    class="form-control @error('question') is-invalid @enderror" name="question"
-                   value="{{ $faq->question }}" required autocomplete="city" autofocus>
+                   value="{{ $Faq->question }}" required autocomplete="city" autofocus>
 
             @error('question')
             <span class="invalid-feedback" role="alert">
@@ -42,7 +42,7 @@
         <div class="col-md-6">
             <input id="answer" type="text"
                    class="form-control @error('answer') is-invalid @enderror" name="answer"
-                   value="{{ $faq->answer }}" required autocomplete="answer" autofocus>
+                   value="{{ $Faq->answer }}" required autocomplete="answer" autofocus>
 
             @error('answer')
             <span class="invalid-feedback" role="alert">

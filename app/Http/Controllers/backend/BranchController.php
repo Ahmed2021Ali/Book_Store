@@ -12,7 +12,6 @@ use App\Http\Requests\branch\UpdateBranchRequest;
 
 class BranchController extends Controller
 {
-    use media;
     public $branches;
     public function __construct()
     {
@@ -26,19 +25,20 @@ class BranchController extends Controller
 
     public function store(StoreBranchRequest $request)
     {
-        $this->storeMethod($request,'Branch',null);
+        storeMethod($request,'Branch',null);
         return redirect()->back()->with(['success'=>'تم بنجاح اضافة العنوان']);
     }
 
     public function update(UpdateBranchRequest $request, Branch $branch)
     {
-        $branch->update($request->validated());
-       return redirect()->back()->with(['success'=>'تم بنجاح تحديث العنوان ']);
+        updateMethod($request, $branch, null);
+        return redirect()->back()->with(['success'=>'تم بنجاح تحديث العنوان ']);
     }
 
     public function destroy(Branch $branch)
     {
-        $branch->delete();
+        deleteMethod($branch,null);
+
         return redirect()->back()->with(['success'=>' تم بنجاح حذف العنوان']);
     }
 }

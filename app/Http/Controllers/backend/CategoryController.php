@@ -2,17 +2,13 @@
 
 namespace App\Http\Controllers\backend;
 
-use App\Http\traits\media;
-use App\Models\Book;
 use App\Models\Category;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\category\StoreCategoryRequest;
 use App\Http\Requests\category\UpdateCategoryRequest;
 
 class CategoryController extends Controller
 {
-    use media;
     public $categories;
 
     public function __construct()
@@ -29,7 +25,7 @@ class CategoryController extends Controller
 
     public function store(StoreCategoryRequest $request)
     {
-        $this->storeMethod($request,'Category',null);
+        storeMethod($request,'Category',null);
         return redirect()->back()->with(['success'=>'تم بنجاح اضافة القسم']);
     }
 
@@ -42,13 +38,13 @@ class CategoryController extends Controller
 
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        $category->update($request->validated());
+        updateMethod($request, $category, null);
         return redirect()->back()->with(['success'=>' تم بنجاح تحديث القسم']);
     }
 
     public function destroy(Category $category)
     {
-        $category->delete();
+        deleteMethod($category,null);
         return redirect()->back()->with(['success'=>' تم بنجاح حذف القسم']);
     }
 

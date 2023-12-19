@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\checkout;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreCheckRequest extends FormRequest
+class UpdateAddressRequest extends FormRequest
 {
 
     public function authorize(): bool
@@ -20,7 +20,8 @@ class StoreCheckRequest extends FormRequest
             'city'=>['required','string','max:256','min:2'],
             'phone' => ['required'],
             'address' => ['required','string', 'max:255'],
-            'email' => ['required','email']
+            'email' => ['required','email'],
+            'note'=>['nullable','string']
         ];
     }
 }

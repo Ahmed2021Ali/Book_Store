@@ -28,7 +28,7 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
             @enderror
-            <img src="\assets\images\banner\{{ $banner->image }}" width="350px" height="150px">
+            <img src="\images\banners\{{ $banner->image }}" width="350px" height="150px">
         </div>
     </div>
     <div class="row mb-0">

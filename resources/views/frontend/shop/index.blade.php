@@ -30,7 +30,7 @@
                                 <a href="{{ route('book', $encryptedId) }}">
                                     <div class="product__img-cont">
                                         <img class="product__img w-100 h-100 object-fit-cover"
-                                            src="\assets\images\book\{{ $book->image }}" data-id="white" />
+                                            src="\images\books\{{ $book->image }}" data-id="white" />
                                     </div>
                                 </a>
                                 <div

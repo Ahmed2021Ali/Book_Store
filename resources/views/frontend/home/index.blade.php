@@ -11,7 +11,7 @@
             <div class="owl-carousel hero__carousel owl-theme">
                 @foreach ($sliders as $slider)
                     <div class="hero__item">
-                        <img class="hero__img" src="assets\images\slider\{{ $slider->image }}" alt="">
+                        <img class="hero__img" src="\images\sliders\{{ $slider->image }}" alt="">
                     </div>
                 @endforeach
 
@@ -53,7 +53,7 @@
                             <a href="{{ route('book', $encryptedId) }}">
                                 <div class="product__img-cont">
                                     <img class="product__img w-100 h-100 object-fit-cover"
-                                        src="assets\images\book\{{ $offer->image }}" data-id="white">
+                                        src="\images\books\{{ $offer->image }}" data-id="white">
                                 </div>
                             </a>
                             <div class="product__sale position-absolute top-0 start-0 m-1 px-2 py-1 rounded-1 text-white">
@@ -91,7 +91,7 @@
                 @foreach ($banners as $banner)
                     <div class="col-md-6 p-2">
                         <div class="p-4 border rounded-3">
-                            <img class="w-100" src="assets\images\banner\{{ $banner->image }}" alt="">
+                            <img class="w-100" src="\images\banners\{{ $banner->image }}" alt="">
                         </div>
                     </div>
                 @endforeach
@@ -113,7 +113,7 @@
                             <a href="{{ route('book', $encryptedId) }}">
                                 <div class="product__img-cont">
                                     <img class="product__img w-100 h-100 object-fit-cover"
-                                        src="assets\images\book\{{ $bestseller->image }}" data-id="white">
+                                        src="\images\books\{{ $bestseller->image }}" data-id="white">
                                 </div>
                             </a>
                             <div class="product__sale position-absolute top-0 start-0 m-1 px-2 py-1 rounded-1 text-white">
@@ -163,7 +163,7 @@
                             <a href="{{ route('book', $encryptedId) }}">
                                 <div class="product__img-cont">
                                     <img class="product__img w-100 h-100 object-fit-cover"
-                                        src="assets\images\book\{{ $newly->image }}" data-id="white">
+                                        src="\images\books\{{ $newly->image }}" data-id="white">
                                 </div>
                             </a>
                             <div class="product__sale position-absolute top-0 start-0 m-1 px-2 py-1 rounded-1 text-white">

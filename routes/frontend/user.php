@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Http\Controllers\frontend\CardController;
 use App\Http\Controllers\frontend\FavController;
 use App\Http\Controllers\frontend\HomepageController;

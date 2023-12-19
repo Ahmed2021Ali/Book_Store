@@ -33,7 +33,7 @@ class FavController extends Controller
 
     public function delete(Request $request, Fav $fav)
     {
-        $fav->delete();
+        deleteMethod($fav,null);
         return redirect()->back()->with('success', 'تم حذف المفضلة بنجاح ');
     }
 }

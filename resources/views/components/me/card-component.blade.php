@@ -28,7 +28,7 @@
                             </div>
                             <a href="{{ route('book', $encryptedId) }}">
                                 <div class="cart-products__img">
-                                    <img class="w-100" src="/assets/images/book/{{ $card->book->image }}" alt="">
+                                    <img class="w-100" src="/images/books/{{ $card->book->image }}" alt="">
                                 </div>
                             </a>
 

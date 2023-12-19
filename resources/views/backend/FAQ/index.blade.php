@@ -29,26 +29,26 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach ($faqs as $faq)
+                @foreach ($Faqs as $Faq)
                     <tr>
-                        <td>{{ $faq->id }}</td>
-                        <td>{{ $faq->question }}</td>
-                        <td>{{ $faq->answer }}</td>
-                        <td>{{ $faq->status == 1 ? "معروضة ":"غير معروضة" }}</td>
+                        <td>{{ $Faq->id }}</td>
+                        <td>{{ $Faq->question }}</td>
+                        <td>{{ $Faq->answer }}</td>
+                        <td>{{ $Faq->status == 1 ? "معروضة ":"غير معروضة" }}</td>
                         <td>
-                            <x-adminlte-modal id="edit_{{$faq->id}}" title="Edit FAQ" theme="teal"
+                            <x-adminlte-modal id="edit_{{$Faq->id}}" title="Edit FAQ" theme="teal"
                                               icon="fas fa-bolt" size='lg' disable-animations>
-                                @include('backend.FAQ.edit',['fAQ'=>$faq])
+                                @include('backend.FAQ.edit',['fAQ'=>$Faq])
                                 <x-slot name="footerSlot">
                                 </x-slot>
                             </x-adminlte-modal>
                             <x-adminlte-button label="Edit FAQ" data-toggle="modal"
-                                               data-target="#edit_{{$faq->id}}" class="bg-teal"/>
+                                               data-target="#edit_{{$Faq->id}}" class="bg-teal"/>
 
                             {{--  delete  --}}
-                            <x-adminlte-modal id="delete_{{ $faq->id }}" title="Delete" theme="purple"
+                            <x-adminlte-modal id="delete_{{ $Faq->id }}" title="Delete" theme="purple"
                                               icon="fas fa-bolt" size='lg' disable-animations>
-                                <form action="{{ route('Faq.destroy', $faq) }}" method="post"
+                                <form action="{{ route('Faq.destroy', $Faq) }}" method="post"
                                       class="d-inline">
                                     @method('delete')
                                     @csrf
@@ -59,7 +59,7 @@
                                 </x-slot>
                             </x-adminlte-modal>
                             <x-adminlte-button label="Delete" data-toggle="modal"
-                                               data-target="#delete_{{ $faq->id }}" class="bg-danger"/>
+                                               data-target="#delete_{{ $Faq->id }}" class="bg-danger"/>
                             {{-- End  delete  --}}
                         </td>
                     </tr>
@@ -67,7 +67,7 @@
 
                 </tbody>
             </table>
-            {{ $faqs->links() }}
+            {{ $Faqs->links() }}
         </div>
     </div>
 @stop

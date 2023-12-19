@@ -7,7 +7,7 @@
         <!-- Product details Start -->
         <section class="section-container my-5 pt-5 d-md-flex gap-5">
             <div class="single-product__img w-100" id="main-img">
-                <img src="\assets\images\book\{{ $book->image }}" alt="">
+                <img src="\images\books\{{ $book->image }}" alt="">
             </div>
             <div class="single-product__details w-100 d-flex flex-column justify-content-between">
                 <div>
