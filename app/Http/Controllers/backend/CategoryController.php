@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\backend;
 
+use App\Http\traits\media;
 use App\Models\Book;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use App\Http\Requests\category\UpdateCategoryRequest;
 
 class CategoryController extends Controller
 {
+    use media;
     public $categories;
 
     public function __construct()
@@ -27,7 +29,7 @@ class CategoryController extends Controller
 
     public function store(StoreCategoryRequest $request)
     {
-        Category::create($request->validated());
+        $this->storeMethod($request,'Category',null);
         return redirect()->back()->with(['success'=>'تم بنجاح اضافة القسم']);
     }
 

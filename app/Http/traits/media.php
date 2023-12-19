@@ -2,53 +2,69 @@
 
 namespace App\Http\traits;
 
-trait media {
 
-    public function uploadPhoto($image,$folder)
+use Illuminate\Support\Arr;
+
+trait media
+{
+
+    public function uploadPhoto($image, $folder)
     {
-        $imageName = time().'.'.$image->getClientOriginalExtension();
-        $image->move(public_path('images/'.$folder), $imageName);
+        $imageName = time() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('images/' . $folder), $imageName);
         return $imageName;
     }
 
-    public function deletePhoto($photo,$folder)
+    public function deletePhoto($photo, $folder)
     {
-        $photoPath=public_path('images/'.$folder).$photo;
-        if(file_exists($photoPath)){
+        $photoPath = public_path('images/' . $folder) . $photo;
+        if (file_exists($photoPath)) {
             unlink($photoPath);
             return true;
         }
         return false;
     }
 
-    public function price_after_offer($price ,$offer)
+    public function priceAfterOffer($price, $offer)
     {
-        if(isset($offer)) {
-            return $price_after_offer = $price - ( $price * ( $offer / 100 ) );
+        if (isset($offer)) {
+            return $price_after_offer = $price - ($price * ($offer / 100));
         } else {
             return null;
         }
 
     }
 
-    /*public function create($request,$model,$folderPhoto)
+    public function storeMethod($request, $modelName, $folderPhoto)
     {
         $data = $request->validated();
-        if($data['image'])
-        {
-            $PhotoName = $this->uploadPhoto($data['image'],$folderPhoto);
+        if (isset($data['image'])) {
+            $PhotoName = $this->uploadPhoto($data['image'], $folderPhoto);
             $data['image'] = $PhotoName;
         }
-        \App\Models\$model::create($data);
-    }*/
-/*    public function update($request,$model,$folderPhoto)
+        if (isset($data['offer'])) {
+            $data['price_after_offer'] = $this->priceAfterOffer($data['price'], $data['offer']);
+        }
+        $model_prefix = "App\Models";
+        $modal = $model_prefix . '\\' . $modelName;
+        return $modal::create($data);
+    }
+
+/*    public function updateMethod($request, $model, $folderPhoto)
     {
         $data = $request->validated();
-        if($data['image'])
-        {
-            $PhotoName = $this->uploadPhoto($data['image'],$folderPhoto);
-            $data['image'] = $PhotoName;
+
+        $model_prefix = "App\Models";
+        $modal = $model_prefix . '\\' . $modelName;
+
+        if (isset($data['image'])) {
+            $this->deletePhoto($book->image, 'books');
+            $photoName = $this->uploadPhoto($data['image'], 'books');
         }
-        $model::create($data);
+        $data['price_after_offer'] = $this->price_after_offer($data['price'], $data['offer']);
+        $book->update([
+            ...Arr::except($data, ['image']),
+            'image' => isset($data['image']) ? $photoName : $book->image,
+        ]);
     }*/
 }

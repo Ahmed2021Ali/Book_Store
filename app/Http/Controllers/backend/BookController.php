@@ -40,11 +40,7 @@ class BookController extends Controller
 
     public function store(StoreBookRequest $request)
     {
-        $data = $request->validated();
-        $photoName = $this->uploadPhoto($data['image'], 'books');
-        $data['image'] = $photoName;
-        $data['price_after_offer'] = $this->price_after_offer($data['price'], $data['offer']);
-        Book::create($data);
+        $this->storeMethod($request,'Book','books');
         return redirect()->back()->with(['success' => 'تم بنجاح اضافة الكتاب']);
     }
 

@@ -26,10 +26,7 @@ class SliderController extends Controller
 
     public function store(SliderStoreRequest $request)
     {
-        $data=$request->validated();
-        $photoName = $this->uploadPhoto($data['image'],'sliders');
-        $data['image'] = $photoName;
-        Slider::create($data);
+        $this->storeMethod($request,'Slider','sliders');
         return redirect()->back()->with(['success'=>'تم بنجاح اضافة الصورة']);
     }
 

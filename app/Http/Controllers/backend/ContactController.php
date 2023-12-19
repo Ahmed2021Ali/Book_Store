@@ -5,11 +5,13 @@ namespace App\Http\Controllers\backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\contact\StoreContactRequest;
 use App\Http\Requests\UpdateContactRequest;
+use App\Http\traits\media;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
+    use media;
     public $contacts;
 
     public function __construct()
@@ -24,7 +26,7 @@ class ContactController extends Controller
 
     public function store(StoreContactRequest $request)
     {
-        Contact::create($request->validated());
+        $this->storeMethod($request,'Contact',null);
         return redirect()->back()->with(['success'=>'سيتم التواصل معك في اقرب وقت']);
     }
 

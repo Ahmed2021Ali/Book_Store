@@ -21,10 +21,7 @@ class BannerController extends Controller
 
     public function store(SliderStoreRequest $request)
     {
-        $data = $request->validated();
-        $PhotoName = $this->uploadPhoto($data['image'],'banners');
-        $data['image'] = $PhotoName;
-        Banner::insert($data);
+        $this->storeMethod($request,'Banner','banners');
         return redirect()->back()->with(['success'=>'تم بنجاح اضافة الصورة']);
     }
 

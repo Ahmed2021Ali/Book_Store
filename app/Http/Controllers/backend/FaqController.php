@@ -4,12 +4,14 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Requests\FAQ\StoreFAQRequest;
 use App\Http\Requests\FAQ\UpdateFAQRequest;
+use App\Http\traits\media;
 use App\Models\Faq;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class FaqController extends Controller
 {
+    use media;
     public $faqs;
     public function __construct()
     {
@@ -23,7 +25,7 @@ class FaqController extends Controller
 
     public function store(StoreFAQRequest $request)
     {
-        Faq::create($request->validated());
+        $this->storeMethod($request,'Faq',null);
         return redirect()->back()->with(['success'=>'تم بنجاح اضافة السوال و الرد ']);
     }
 

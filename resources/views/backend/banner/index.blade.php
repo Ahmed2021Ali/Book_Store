@@ -32,7 +32,7 @@
                     <tr>
                         <td>{{ $banner->id }}</td>
                         <td>
-                            <img src="images\banners\{{ $banner->image }}" width="150px" height="50px">
+                            <img src="\images\banners\{{ $banner->image }}" width="150px" height="50px">
                         </td>
                         <td>{{ $banner->status == 1 ? "معروضة ":"غير معروضة" }}</td>
                         <td>
