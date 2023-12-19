@@ -9,16 +9,7 @@ use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+
 
 Route::controller(HomepageController::class)->prefix('HomePage')->group(function () {
     Route::get('/', 'index')->name('homepage');
@@ -39,17 +30,16 @@ Route::middleware(['auth'])->prefix('HomePage')->group(function () {
     Route::post('/AddCard/{id}', [CardController::class, 'addCard'])->name('card.add');
     Route::delete('/destroyCard/{card}', [CardController::class, 'destroyCard'])->name('card.destroy');
 
-    Route::controller(OrderController::class)->as('order.')->group(function () {
-
-        Route::get('order/create', 'create')->name('create');
-        Route::get('order/store{status}', 'store')->name('store');
-        Route::post('order/status/payment', 'statusPayment')->name('status.payment');
-        Route::get('order/details/{address_id}', 'detailsOrder')->name('details');
-        Route::get('order/user/show', 'showOrderUser')->name('show');
-        Route::delete('order/delete/{order}', 'deleteOrder')->name('delete');
-        Route::view('order/search/page', 'frontend.track-order.index')->name('search.page');
-        Route::post('order/search', 'searchOrder')->name('search');
-        Route::get('order/all', 'showAllOrder')->name('all');
+    Route::controller(OrderController::class)->prefix('order')->as('order.')->group(function () {
+        Route::post('status/payment', 'statusPayment')->name('status.payment');
+        Route::get('create', 'create')->name('create');
+        Route::get('details/{address_id}', 'detailsOrder')->name('details');
+        Route::get('oder/store{status}', 'store')->name('store');
+        Route::get('user/show', 'showOrderUser')->name('show');
+        Route::delete('delete/{order}', 'deleteOrder')->name('delete');
+        Route::view('search/page', 'frontend.track-order.index')->name('search.page');
+        Route::post('search', 'searchOrder')->name('search');
+        Route::get('all', 'showAllOrder')->name('all');
     });
 
     Route::controller(FavController::class)->prefix('Favorite/books')->as('fav.')->group(function () {
@@ -58,14 +48,13 @@ Route::middleware(['auth'])->prefix('HomePage')->group(function () {
         Route::delete('/destroy/{fav}', 'delete')->name('delete');
     });
 
-    Route::controller(PaypalController::class)->as('payment.')->group(function () {
-        Route::get('payment', 'payment')->name('index');
-        Route::get('payment/cancel', 'cancel')->name('cancel');
-        Route::get('payment/success', 'success')->name('success');
+    Route::controller(PaypalController::class)->prefix('payment')->as('payment.')->group(function () {
+        Route::get('/', 'payment')->name('index');
+        Route::get('/cancel', 'cancel')->name('cancel');
+        Route::get('/success', 'success')->name('success');
     });
 
     Route::resource('/address', \App\Http\Controllers\frontend\AddressController::class)->except('show', 'index');
-
 });
 
 

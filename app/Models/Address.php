@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Address extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
 
     protected $table = 'address';
     protected $fillable = [
@@ -34,7 +35,7 @@ class Address extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function order_product()
+    public function order()
     {
         return $this->hasMany(Order::class);
     }

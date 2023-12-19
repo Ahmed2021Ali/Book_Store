@@ -32,10 +32,12 @@
                     <tr>
                         <td>{{ $banner->id }}</td>
                         <td>
-                            <img src="\assets\images\banner\{{ $banner->image }}" width="150px" height="50px">
+                            <img src="images\banners\{{ $banner->image }}" width="150px" height="50px">
                         </td>
                         <td>{{ $banner->status == 1 ? "معروضة ":"غير معروضة" }}</td>
                         <td>
+                            {{--  Edit  --}}
+
                             <x-adminlte-modal id="edit_{{$banner->id}}" title="Edit banner" theme="teal"
                                               icon="fas fa-bolt" size='lg' disable-animations>
                                 @include('backend.banner.edit',['banner'=>$banner])
@@ -44,11 +46,12 @@
                             </x-adminlte-modal>
                             <x-adminlte-button label="Edit banner" data-toggle="modal"
                                                data-target="#edit_{{$banner->id}}" class="bg-teal"/>
+                            {{-- end Edit  --}}
 
                             {{--  delete  --}}
                             <x-adminlte-modal id="delete_{{ $banner->id }}" title="Delete" theme="purple"
                                               icon="fas fa-bolt" size='lg' disable-animations>
-                                <form action="{{ route('banner.destroy', $banner->id) }}" method="post"
+                                <form action="{{ route('banner.destroy', $banner) }}" method="post"
                                       class="d-inline">
                                     @method('delete')
                                     @csrf

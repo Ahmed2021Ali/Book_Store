@@ -16,4 +16,8 @@ class Category extends Model
     {
         return $this->hasMany(Book::class);
     }
+    public function getAllCategories()
+    {
+        return Category::all();
+    }
 }

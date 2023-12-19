@@ -33,7 +33,7 @@ class OrderController extends Controller
             $data['status_payment'] = $statusPayment;
             $data['price_after_offer'] = $cardProduct->book->offer ? $cardProduct->book->price_after_offer : null;
             $data['total_price'] = ($data['offer'] ? $data['price_after_offer'] : $data['price']) * $data['quantity'];
-             Order::create([$data]);
+             Order::create($data);
             Book::where('id', $cardProduct->book_id)->update([
                 'quantity' => ($cardProduct->book->quantity) - ($cardProduct->quantity),
                 'stock' => 1,
@@ -41,9 +41,9 @@ class OrderController extends Controller
         }
             /* status -> 0 => book has existed in card but status->1 =>book has buy and exist in order  */
         Card::where('user_id', Auth::user()->id)->where('status', 0)->update(['status' => 1]);
-        Order::where('order_id', Auth::user()->id)->chunk(20, function ($data) {
+/*        Order::where('order_id', Auth::user()->id)->chunk(20, function ($data) {
             dispatch(new SendMails($data));
-        });
+        });*/
         return redirect()->route('order.details',session()->get('address_id'))->with(['success' => 'الدفع تم بنجاح , شكرا لك و لقد تلقنيا الطلب و سوف يتم توصيله لك في الموعد المحدد ']);
     }
 
@@ -60,8 +60,8 @@ class OrderController extends Controller
     public function detailsOrder($address_id)
     {
         return view('frontend.order-recieved.index', [
-            'orders' => Address::where('id', $address_id)->first(),
-            'address'=>Order::where('address_id', $address_id)->get()
+            'orders' => Order::where('address_id', $address_id)->get(),
+            'address'=>Address::where('id', $address_id)->first()
         ]);
     }
 

@@ -22,7 +22,8 @@ class SliderUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status'=>['required','integer','between:0,1']
+            'status'=>['required','integer','between:0,1'],
+            'image'=>['nullable','max:1000','mimes:png,jpg,jpeg']
         ];
     }
 }

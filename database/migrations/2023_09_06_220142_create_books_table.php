@@ -26,6 +26,7 @@ return new class extends Migration
             $table->decimal('price_after_offer',8,2)->nullable();
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

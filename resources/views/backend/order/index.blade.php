@@ -32,16 +32,16 @@
                             <td>{{ $order->id }}</td>
                             <td>
                                 <?php $encryptedId = Crypt::encrypt($order->book_id) ?>
-                                <a href="{{ route('single_book', $encryptedId) }}" class="btn btn-primary">Show Book</a>
+                                <a href="{{ route('book', $encryptedId) }}" class="btn btn-primary">Show Book</a>
                             </td>
                             <td>{{ $order->book->title }}</td>
                             <td>{{ $order->quantity }}</td>
                             <td>{{ $order->total_price }}</td>
-                            <td>{{ $order->order->fname." ".$order->order->lname }}</td>
-                            <td>{{ $order->order->address }}</td>
-                            <td>{{ $order->order->phone }}</td>
-                            <td>{{ $order->order->email }}</td>
-                            <td>{{ $order->status}}</td>
+                            <td>{{ $order->address->fname." ".$order->address->lname }}</td>
+                            <td>{{ $order->address->address }}</td>
+                            <td>{{ $order->address->phone }}</td>
+                            <td>{{ $order->address->email }}</td>
+                            <td>{{ $order->status_payment}}</td>
                             <td>
                                 @if($order->delivery_status_of_orders != null)
                                     تم التوسيل بنجاح
@@ -60,7 +60,7 @@
             </table>
 
         </div>
-        {{ $order_products->links() }}
+        {{ $orders->links() }}
    </div>
 
 @stop

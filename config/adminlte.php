@@ -372,7 +372,7 @@ return [
         ],
         [
             'text' => 'Show all order for user',
-            'route'  => 'show_all_order',
+            'route'  => 'order.all',
             'icon'    => 'fab fa-quora',
         ],
     ],

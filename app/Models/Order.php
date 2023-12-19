@@ -6,10 +6,11 @@ use App\Models\Book;
 use App\Models\Order;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
     protected $table='orders';
 
     protected $fillable = [
@@ -24,9 +25,9 @@ class Order extends Model
         'status_payment',
         'delivery_status_of_orders'
     ];
-    public function order()
+    public function address()
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(Address::class);
     }
     public function book()
     {

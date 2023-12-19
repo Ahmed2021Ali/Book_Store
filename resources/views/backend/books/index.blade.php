@@ -44,12 +44,12 @@
                             <td>{{ $book->quantity }}</td>
 
                             <td>
-                                <img src="\assets\images\book\{{ $book->image }}" width="75px" height="90px">
+                                <img src="\images\books\{{ $book->image }}" width="75px" height="90px">
                             </td>
                             <td>{{ $book->category->title }}</td>
                             <td>
-                                <a href="{{ route('book.edit', $book->id) }}" class="btn btn-warning">Edit</a>
-                                <form action="{{ route('book.destroy', $book->id) }}" method="post" class="d-inline">
+                                <a href="{{ route('book.edit', $book) }}" class="btn btn-warning">Edit</a>
+                                <form action="{{ route('book.destroy', $book) }}" method="post" class="d-inline">
                                     @method('delete')
                                     @csrf
                                     <button class=" btn btn-danger"> Delete </button>

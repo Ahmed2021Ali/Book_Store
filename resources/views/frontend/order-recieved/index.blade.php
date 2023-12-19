@@ -53,7 +53,7 @@
                         <tr>
                             <td>
                                 <div>
-                                    <a href="{{ route('single_book', $encryptedId) }}">
+                                    <a href="{{ route('book', $encryptedId) }}">
                                         <h5>{{ $order->book->title}}</h5>
                                     </a>
                                 </div>
@@ -89,7 +89,7 @@
                 <p class="mb-1">{{ $address->phone }}</p>
                 <p class="mb-1">{{ $address->email }}</p>
             </div>
-            <a href="{{ route('order.edit.address',$address) }}" ><button type="button" class="btn btn-danger">تعديل العنوان </button></a>
+            <a href="{{ route('address.edit',$address) }}" ><button type="button" class="btn btn-danger">تعديل العنوان </button></a>
         </section>
 
     </main>

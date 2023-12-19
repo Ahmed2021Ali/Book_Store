@@ -37,7 +37,7 @@ class AddressController extends Controller
     {
         $data = $request->except('_method', '_token');
         $address->update($data);
-        return redirect()->route('order.create');
+        return redirect()->back();
     }
 
     public function destroy(Address $address)

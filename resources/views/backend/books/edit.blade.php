@@ -7,7 +7,7 @@
 @section('content')
     <x-messages />
     <div class="col-12">
-        <form action="{{ route('book.update', $book->id) }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('book.update', $book) }}" method="post" enctype="multipart/form-data">
             @method('PUT')
             @csrf
             <div class="form-row">
@@ -84,7 +84,7 @@
                 <div class="col-3">
                     <label for="category_id"> Category Name</label>
                     <select name="category_id" id="category_id" class="form-control">
-                        @foreach ($category as $category)
+                        @foreach ($categories as $category)
                             <option {{ $category->id == $book->category_id ? 'selected' : '' }}
                                 value="{{ $category->id }}">{{ $category->title }}
                             </option>
@@ -109,7 +109,7 @@
                 <div class="col-12">
                     <label for="image">Image</label>
                     <input type="file" name="image" id="image" class="form-control">
-                    <img src="\assets\images\book\{{ $book->image }}" width="90px" height="110px">
+                    <img src="\images\books\{{ $book->image }}" width="90px" height="110px">
                 </div>
             </div>
             <div class="form-row my-3">

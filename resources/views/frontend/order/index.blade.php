@@ -20,7 +20,7 @@
                 <div class="profile__tab-content orders active">
                     <div class="orders__none d-flex justify-content-between align-items-center py-3 px-4">
                         <p class="m-0">لم يتم تنفيذ اي طلب بعد.</p>
-                        <a href="{{ route('Show_all_Books') }}"><button class="primary-button">تصفح المنتجات</button></a>
+                        <a href="{{ route('books.all') }}"><button class="primary-button">تصفح المنتجات</button></a>
                     </div>
                     <table class="orders__table w-100">
                         <thead>
@@ -38,7 +38,7 @@
                                 <tr class="order__item">
                                     <td class="d-flex justify-content-between d-md-table-cell">
                                         <div class="fw-bolder d-md-none">الطلب:</div>
-                                        <div><a href="">#{{ $order->order->number_order }}</a></div>
+                                        <div><a href="">#{{ $order->address->number_order }}</a></div>
                                     </td>
                                     <td class="d-flex justify-content-between d-md-table-cell">
                                         <div class="fw-bolder d-md-none">التاريخ:</div>
@@ -61,7 +61,7 @@
                                     <td class="d-flex justify-content-between d-md-table-cell">
                                         <div class="fw-bolder d-md-none">اجراءات:</div>
                                         <div><a class="primary-button"
-                                                href="{{ route('single_book', $encryptedId) }}">عرض</a></div>
+                                                href="{{ route('book', $encryptedId) }}">عرض</a></div>
                                     </td>
                                     <td class="d-flex justify-content-between d-md-table-cell">
                                         <div class="fw-bolder d-md-none">حذف الاوردر:</div>

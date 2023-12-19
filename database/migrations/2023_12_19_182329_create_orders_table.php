@@ -13,13 +13,9 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-
-                 /* address Order */
             $table->unsignedBigInteger('address_id');
             $table->foreign('address_id')->references('id')->on('address')->cascadeOnUpdate()->cascadeOnDelete();
-                /* end address Order */
 
-                   /* order */
             $table->string('quantity');
             $table->string('price');
             $table->integer('offer');
@@ -27,12 +23,10 @@ return new class extends Migration
             $table->decimal('total_price',8,2);
             $table->unsignedBigInteger('book_id');
             $table->foreign('book_id')->references('id')->on('books')->cascadeOnUpdate()->cascadeOnDelete();
-                 /* end order*/
-
             $table->string('status_payment');
-
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->SoftDeletes();
             $table->timestamps();
         });
     }

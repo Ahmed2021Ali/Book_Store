@@ -7,78 +7,45 @@ use App\Http\Requests\slider\SliderStoreRequest;
 use App\Http\Requests\slider\SliderUpdateRequest;
 use App\Http\traits\media;
 use App\Models\Banner;
+use Illuminate\Support\Arr;
 
 class BannerController extends Controller
 {
     use media;
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $banners=Banner::select('id','image','status')->paginate(7);
         return view('backend.banner.index',compact('banners'));
     }
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('backend.banner.create');
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(SliderStoreRequest $request)
     {
-        $photoName = $this->uploadPhoto($request->image,'banner');
-        $data = $request->except('_token');
-        $data['image'] = $photoName;
+        $data = $request->validated();
+        $PhotoName = $this->uploadPhoto($data['image'],'banners');
+        $data['image'] = $PhotoName;
         Banner::insert($data);
         return redirect()->back()->with(['success'=>'تم بنجاح اضافة الصورة']);
     }
 
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(SliderUpdateRequest $request, Banner $banner)
     {
-        $banner=Banner::findOrFail($id);
-        return view('backend.banner.edit',compact('banner'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(SliderUpdateRequest $request, string $id)
-    {
-        $data = $request->except('_token','_method','image');
-         if($request->has('image'))
-         {
-            $old_photo=Banner::where('id',$id)->first()->image;
-            $photo_path=public_path('/assets/images/banner/').$old_photo;
-             $this->deletePhoto($photo_path);
-
-            $PhotoName = $this->uploadPhoto($request->image,'banner');
-             $data['image']=$PhotoName;
+        $data = $request->validated();
+         if(isset($data['image'])) {
+             $this->deletePhoto($banner->image,'banners');
+             $PhotoName = $this->uploadPhoto($data['image'],'banners');
         }
-
-        Banner::where('id',$id)->update($data);
+        $banner->update([
+            ...Arr::except($data,['image']),
+            'image' => isset($data['image']) ? $PhotoName : $banner->image
+        ]);
         return redirect()->back()->with(['success'=>' تم بنجاح تحديث الصورة و العرض']);
     }
 
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Banner $banner)
     {
-        $old_photo=Banner::where('id',$id)->first()->image;
-        $photo_path=public_path('/assets/images/slider/').$old_photo;
-        $this->deletePhoto($photo_path);
-        Banner::where('id',$id)->delete();
+        $this->deletePhoto($banner->image,'banners');
+        $banner->delete();
         return redirect()->back()->with(['success'=>' تم بنجاح حذف الصورة']);
     }
 }

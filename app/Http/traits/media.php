@@ -5,12 +5,13 @@ namespace App\Http\traits;
 trait media {
     public function uploadPhoto($image,$folder)
     {
-        $photoName = uniqid() . '.' . $image->extension();
-        $image->move(public_path('/assets/images/'.$folder),$photoName);
-        return $photoName;
+        $imageName = time().'.'.$image->getClientOriginalExtension();
+        $image->move(public_path('images/'.$folder), $imageName);
+        return $imageName;
     }
-    public function deletePhoto($photoPath)
+    public function deletePhoto($photo,$folder)
     {
+        $photoPath=public_path('images/'.$folder).$photo;
         if(file_exists($photoPath)){
             unlink($photoPath);
             return true;
@@ -20,12 +21,9 @@ trait media {
 
     public function price_after_offer($price ,$offer)
     {
-        if(isset($offer))
-        {
+        if(isset($offer)) {
             return $price_after_offer = $price - ( $price * ( $offer / 100 ) );
-        }
-        else
-        {
+        } else {
             return null;
         }
 

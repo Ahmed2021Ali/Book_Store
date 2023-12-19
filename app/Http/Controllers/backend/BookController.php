@@ -9,85 +9,71 @@ use App\Models\Book;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Arr;
 
 class BookController extends Controller
 {
     use media;
-    /**
-     * Display a listing of the resource.
-     */
+
+    public $categories;
+    public $books;
+
+    public function __construct()
+    {
+        $this->categories = new Category();
+        $this->books = new Book();
+    }
+
     public function index()
     {
-        $books=Book::select('id','title','author_name','price','price_after_offer','status','image','category_id','quantity')->with('category')->paginate(4);
-        return view('backend.books.index',compact('books'));
+        return view('backend.books.index', [
+            'books' => $this->books->getAllBooks(),
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        $category=Category::select('id','title')->get();
-        return view('backend.books.create',compact('category'));
+        return view('backend.books.create', [
+            'categories' => $this->categories->getAllCategories(),
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreBookRequest $request)
     {
-        $photoName = $this->uploadPhoto($request->image,'book');
-        $data = $request->except('_token');
+        $data = $request->validated();
+        $photoName = $this->uploadPhoto($data['image'], 'books');
         $data['image'] = $photoName;
-        $price_after_offer =$this->price_after_offer($request->price,$request->offer);
-        $data['price_after_offer'] = $price_after_offer;
-        Book::insert($data);
-        return redirect()->back()->with(['success'=>'تم بنجاح اضافة الكتاب']);
-
+        $data['price_after_offer'] = $this->price_after_offer($data['price'], $data['offer']);
+        Book::create($data);
+        return redirect()->back()->with(['success' => 'تم بنجاح اضافة الكتاب']);
     }
 
-    /**
-     * Display the specified resource.
-     */
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Book $book)
     {
-       // $book=Book::where('id',$id)->first();
-        $category=Category::select('id','title')->get();
-        return view('backend.books.edit',compact('book','category'));
+        return view('backend.books.edit', [
+            'categories' => $this->categories->getAllCategories(),
+            'book' => $book
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateBookRequest $request, string $id)
+    public function update(UpdateBookRequest $request, Book $book)
     {
-        $data = $request->except('_token','_method','image');
-        if($request->has('image'))
-        {
-           $old_photo=Book::where('id',$id)->first()->image;
-           $photo_path=public_path('/assets/images/book/').$old_photo;
-            $this->deletePhoto($photo_path);
-
-           $PhotoName = $this->uploadPhoto($request->image,'book');
-            $data['image']=$PhotoName;
-       }
-       Book::where('id',$id)->update($data);
-       return redirect()->back()->with(['success'=>'تم بنجاح تحديث الكتاب ']);
+        $data = $request->validated();
+        if (isset($data['image'])) {
+            $this->deletePhoto($book->image, 'books');
+            $photoName = $this->uploadPhoto($data['image'], 'books');
+        }
+        $book->update([
+            ...Arr::except($data,['image']),
+            'image'=>isset($data['image']) ? $photoName : $book->image,
+        ]);
+        return redirect()->back()->with(['success' => 'تم بنجاح تحديث الكتاب ']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Book $book)
     {
-        $old_photo=Book::where('id',$id)->first()->image;
-        $photo_path=public_path('/assets/images/book/').$old_photo;
-        $this->deletePhoto($photo_path);
-        Book::where('id',$id)->delete();
-        return redirect()->back()->with(['success'=>' تم بنجاح حذف الكتاب']);
+        $this->deletePhoto($book->image, 'books');
+        $book->delete();
+        return redirect()->back()->with(['success' => ' تم بنجاح حذف الكتاب']);
     }
 }
