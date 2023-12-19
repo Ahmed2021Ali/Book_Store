@@ -16,13 +16,13 @@
                     <div class="product__author">{{ $book->book_page_number }} صفحة</div>
                     <div class="product__price mb-3 text-center d-flex gap-2">
                         <span class="product__price product__price--old fs-6 ">
-                            {{ $book->price }}.00 جنيه
+                            {{ $book->price }} جنيه
                         </span>
                         <div style="color:#ff0000">
                             <h4>{{ $book->offer }}%</h4>
                         </div>
                         <span class="product__price fs-5">
-                            {{ $book->price_after_offer ? $book->price_after_offer : $book->price }}.00 جنيه
+                            {{ $book->price_after_offer ? $book->price_after_offer : $book->price }} جنيه
                         </span>
                     </div>
 
@@ -37,12 +37,15 @@
 
                     <div class="d-flex w-100 gap-2 mb-3">
                         <div class="single-product__quanitity position-relative">
-                            <form action="{{ route('card.add', $book->id) }}" method="post">
+                            <form action="{{ route('card.store', $book) }}" method="post">
                                 @csrf
                                 <input class="single-product__input text-center px-3" style="width:100px" type="number"
                                     name="quantity" value="1" min="1" placeholder="---">
                                 <input style="height:45px;width:480px" class="primary-button" type="submit"
                                     value="اضافة الي السلة">
+                                @error('quantity')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </form>
                         </div>
                     </div>
@@ -192,14 +195,14 @@
                             <a href="{{ route('book', $encryptedId) }}">
                                 <div class="product__img-cont">
                                     <img class="product__img w-100 h-100 object-fit-cover"
-                                        src="\assets\images\book\{{ $book->image }}" data-id="white" />
+                                        src="\images\books\{{ $book->image }}" data-id="white" />
                                 </div>
                             </a>
                             <div class="product__sale position-absolute top-0 start-0 m-1 px-2 py-1 rounded-1 text-white">
                                 وفر 10%
                             </div>
                             <div>
-                                <a href="{{ route('fav.store', $book->id) }}"
+                                <a href="{{ route('fav.store', $book) }}"
                                     class="product__favourite position-absolute top-0 end-0 m-1 rounded-circle d-flex justify-content-center align-items-center bg-white">
                                     <i class="fa-regular fa-heart"></i></a>
                             </div>
@@ -212,10 +215,10 @@
                         <div class="product__author text-center">Mike Katz</div>
                         <div class="product__price text-center d-flex gap-2 justify-content-center flex-wrap">
                             <span class="product__price product__price--old">
-                                {{ $book->price }}.00 جنيه
+                                {{ $book->price }} جنيه
                             </span>
                             <span class="product__price">
-                                {{ $book->price_after_offer ? $book->price_after_offer : $book->price }}.00 جنيه </span>
+                                {{ $book->price_after_offer ? $book->price_after_offer : $book->price }} جنيه </span>
                         </div>
                     </div>
                 @endforeach

@@ -9,7 +9,7 @@
                         <li class="cart-products__item d-flex justify-content-between gap-2">
                             <div class="d-flex gap-2">
                                 <div>
-                                    <form method="post" action="{{ route('card.destroy',$card) }}">
+                                    <form method="post" action="{{ route('card.delete',$card) }}">
                                         @csrf
                                         @method('delete')
                                         <button  class="cart-products__remove" type="submit">x</button>
@@ -18,7 +18,7 @@
                                 <div>
                                     <p class="cart-products__name m-0 fw-bolder">{{ $card->book->title }}</p>
                                     <p class="cart-products__price m-0">
-                                        {{ $card->book->price_after_offer ? $card->book->price_after_offer : $card->book->price }}.00<span
+                                        {{ $card->book->price_after_offer ? $card->book->price_after_offer : $card->book->price }}<span
                                             style="color: #e91616">X</span>{{ $card->quantity }}<span>
                                         </span> جنيه </p>
                                     {{ $total = ($card->book->price_after_offer ? $card->book->price_after_offer : $card->book->price) * $card->quantity }}<span>.00</span>

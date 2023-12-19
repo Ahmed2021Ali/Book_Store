@@ -74,10 +74,10 @@
                         </div>
                         <div class="product__price text-center d-flex gap-2 justify-content-center flex-wrap">
                             <span class="product__price product__price--old">
-                                {{ $offer->price }}.00 جنيه
+                                {{ $offer->price }} جنيه
                             </span>
                             <span class="product__price">
-                                {{ $offer->price_after_offer ? $offer->price_after_offer : $offer->price }}.00 جنيه </span>
+                                {{ $offer->price_after_offer ? $offer->price_after_offer : $offer->price }} جنيه </span>
                         </div>
                     </div>
                 @endforeach
@@ -136,10 +136,10 @@
                         </div>
                         <div class="product__price text-center d-flex gap-2 justify-content-center flex-wrap">
                             <span class="product__price product__price--old">
-                                {{ $bestseller->price }}.00 جنيه
+                                {{ $bestseller->price }} جنيه
                             </span>
                             <span class="product__price">
-                                {{ $bestseller->price_after_offer ? $bestseller->price_after_offer : $bestseller->price }}.00
+                                {{ $bestseller->price_after_offer ? $bestseller->price_after_offer : $bestseller->price }}
                                 جنيه
                             </span>
                         </div>
@@ -185,10 +185,10 @@
                         </div>
                         <div class="product__price text-center d-flex gap-2 justify-content-center flex-wrap">
                             <span class="product__price product__price--old">
-                                {{ $newly->price }}.00 جنيه
+                                {{ $newly->price }} جنيه
                             </span>
                             <span class="product__price">
-                                {{ $newly->price_after_offer ? $newly->price_after_offer : $newly->price }}.00 جنيه
+                                {{ $newly->price_after_offer ? $newly->price_after_offer : $newly->price }} جنيه
                             </span>
                         </div>
                     </div>

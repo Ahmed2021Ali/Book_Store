@@ -31,9 +31,9 @@ class FavController extends Controller
         return view('frontend.favourites.index', compact('favs'));
     }
 
-    public function delete(Request $request, Fav $fav)
+    public function delete(Fav $fav)
     {
-        deleteMethod($fav,null);
+        deleteMethod($fav, null);
         return redirect()->back()->with('success', 'تم حذف المفضلة بنجاح ');
     }
 }

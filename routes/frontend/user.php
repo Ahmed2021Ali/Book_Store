@@ -9,7 +9,6 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 
-
 Route::controller(HomepageController::class)->prefix('HomePage')->group(function () {
     Route::get('/', 'index')->name('homepage');
     Route::get('/books/all', 'showAllBooks')->name('books.all');
@@ -26,8 +25,11 @@ Route::middleware(['auth'])->prefix('HomePage')->group(function () {
 
     Route::view('account_details', 'frontend.account_details.index')->name('account_details');
     Route::PUT('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-    Route::post('/AddCard/{id}', [CardController::class, 'addCard'])->name('card.add');
-    Route::delete('/destroyCard/{card}', [CardController::class, 'destroyCard'])->name('card.destroy');
+
+    Route::controller(CardController::class)->prefix('card')->as('card.')->group(function () {
+        Route::post('/store/{book}', 'store')->name('store');
+        Route::delete('/delete/{card}', 'delete')->name('delete');
+    });
 
     Route::controller(OrderController::class)->prefix('order')->as('order.')->group(function () {
         Route::post('status/payment', 'statusPayment')->name('status.payment');

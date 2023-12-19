@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\frontend;
 
+use App\Http\Requests\StoreCardRequest;
 use App\Models\Book;
 use App\Models\Card;
 use Illuminate\Http\Request;
@@ -12,48 +13,39 @@ use Illuminate\Support\Facades\Auth;
 class CardController extends Controller
 {
 
-public function addCard(Request $request,$id)
-{
-    $quantity=$request->quantity;
-    $book_id=$id;
-
-    if( $quantity > 0 ) {
-        $cards = Card::where(function ($query) use ($book_id)  {
-            /* status -> 0 => book has existed in card but status->1 =>book has buy and exist in order  */
-            $query->where('user_id',Auth::user()->id)->where('book_id',$book_id)->where('status',0);
-         })->first();
-         $quantity_book=Book::select('quantity')->where('id',$book_id)->first();
-
-        if($cards) {
-            $cards->quantity += $quantity;
-            if($cards->quantity > $cards->book->quantity) {
-                return redirect()->back()->with('error','الكمية غير متوفره');
+    public function store(StoreCardRequest $request, Book $book)
+    {
+        $dataValidated = $request->validated();
+        /* status -> 0 => book has existed in card but status->1 =>book has buy and exist in order  */
+        $card = Card::where('user_id', Auth::user()->id)->where('book_id', $book->id)->where('status', 0)->first();
+        if ($card) {
+            $card->quantity += $dataValidated['quantity'];
+            if ($card->quantity > $book->quantity) {
+                return redirect()->back()->with('error', 'الكمية غير متوفره');
             } else {
-                $cards->save();
-                return redirect()->back()->with('success','تم زيادة العدد المطلوب لهذا الكتاب');
+                $card->save();
+                return redirect()->back()->with('success', 'تم زيادة العدد المطلوب لهذا الكتاب');
             }
         } else {
-            if($quantity > $quantity_book->quantity) {
-                return redirect()->back()->with('error','الكمية غير متوفره');
+            if ($dataValidated['quantity'] > $book->quantity) {
+                return redirect()->back()->with('error', 'الكمية غير متوفره');
             } else {
-                Card::insert([
+                Card::create([
                     'user_id' => Auth::user()->id,
-                    'book_id' =>$book_id,
-                    'quantity'=>$quantity,
-                    ]);
-                return redirect()->back()->with('success','تم بنجاح اضافة الكتاب الي عربة التسويق الخاص بك');
+                    'book_id' => $book->id,
+                    'quantity' => $dataValidated['quantity'],
+                ]);
+                return redirect()->back()->with('success', 'تم بنجاح اضافة الكتاب الي عربة التسويق الخاص بك');
             }
         }
-    } else {
-        return redirect()->back()->with('error','حدث خطا و لا يمكن ادخل عدد الكتب اقل من واحد');
     }
-}
 
-public function destroyCard(Request $request,Card $card)
-{
-    deleteMethod($card,null);
-    return redirect()->back()->with('success',' تم بنجاح حذف الكتاب من السلة');
-}
+
+    public function delete(Request $request, Card $card)
+    {
+        deleteMethod($card, null);
+        return redirect()->back()->with('success', ' تم بنجاح حذف الكتاب من السلة');
+    }
 
 
 }

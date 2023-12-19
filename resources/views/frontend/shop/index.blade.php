@@ -41,10 +41,10 @@
                             <div class="product__author text-center">{{ $book->author_name }}</div>
                             <div class="product__price text-center d-flex gap-2 justify-content-center flex-wrap">
                                 <span class="product__price product__price--old">
-                                    {{ $book->price }}.00 جنيه
+                                    {{ $book->price }} جنيه
                                 </span>
                                 <span class="product__price">
-                                    {{ $book->price_after_offer ? $book->price_after_offer : $book->price }}.00 جنيه
+                                    {{ $book->price_after_offer ? $book->price_after_offer : $book->price }} جنيه
                                 </span>
                             </div>
                         </div>

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\frontend;
+
 use App\Http\Controllers\Controller;
 use App\Http\Requests\order\StoreSearchRequest;
 use App\Jobs\SendMails;
@@ -33,18 +34,18 @@ class OrderController extends Controller
             $data['status_payment'] = $statusPayment;
             $data['price_after_offer'] = $cardProduct->book->offer ? $cardProduct->book->price_after_offer : null;
             $data['total_price'] = ($data['offer'] ? $data['price_after_offer'] : $data['price']) * $data['quantity'];
-             Order::create($data);
+            Order::create($data);
             Book::where('id', $cardProduct->book_id)->update([
                 'quantity' => ($cardProduct->book->quantity) - ($cardProduct->quantity),
-                'stock' => 1,
+                'stock' => 1 + $cardProduct->book->stock,
             ]);
         }
-            /* status -> 0 => book has existed in card but status->1 =>book has buy and exist in order  */
+        /* status -> 0 => book has existed in card but status->1 =>book has buy and exist in order  */
         Card::where('user_id', Auth::user()->id)->where('status', 0)->update(['status' => 1]);
-/*        Order::where('order_id', Auth::user()->id)->chunk(20, function ($data) {
-            dispatch(new SendMails($data));
-        });*/
-        return redirect()->route('order.details',session()->get('address_id'))->with(['success' => 'الدفع تم بنجاح , شكرا لك و لقد تلقنيا الطلب و سوف يتم توصيله لك في الموعد المحدد ']);
+        /*        Order::where('order_id', Auth::user()->id)->chunk(20, function ($data) {
+                    dispatch(new SendMails($data));
+                });*/
+        return redirect()->route('order.details', session()->get('address_id'))->with(['success' => 'الدفع تم بنجاح , شكرا لك و لقد تلقنيا الطلب و سوف يتم توصيله لك في الموعد المحدد ']);
     }
 
     public function statusPayment(Request $request)
@@ -61,7 +62,7 @@ class OrderController extends Controller
     {
         return view('frontend.order-recieved.index', [
             'orders' => Order::where('address_id', $address_id)->get(),
-            'address'=>Address::where('id', $address_id)->first()
+            'address' => Address::where('id', $address_id)->first()
         ]);
     }
 
@@ -73,15 +74,16 @@ class OrderController extends Controller
 
     public function deleteOrder(Order $order)
     {
-        deleteMethod($order,null);
+        deleteMethod($order, null);
         return redirect()->back()->with('success', 'تم بنجاح حذف الطلب');
     }
 
     public function searchOrder(StoreSearchRequest $request)
     {
-        $address = Address::where('number_order', $request->number_order)->where('email', $request->email)->first();
+        $dataValidated = $request->validated();
+        $address = Address::where('number_order', $dataValidated['number_order'])->where('email', $dataValidated['email'])->first();
         if ($address) {
-            $orders= Order::where('address_id', $address->id)->get();
+            $orders = Order::where('address_id', $address->id)->get();
             return view('frontend.order-details.index', compact('address', 'orders'));
         } else {
             return redirect()->back()->with('error', 'خطا في ادخال البيانات');
@@ -90,14 +92,14 @@ class OrderController extends Controller
 
     public function showAllOrder()
     {
-        return view('backend.order.index',['orders' => Order::paginate(10)]);
+        return view('backend.order.index', ['orders' => Order::paginate(10)]);
     }
 
-/*    public function delete_order_for_admin(Request $request, $id)
-    {
-        $order = Order::findOrFail($request->id);
-        $order->delivery_status_of_orders = "تم النوصيل";
-        $order->save();
-        return redirect()->back()->with('delete successfully');
-    }*/
+    /*    public function delete_order_for_admin(Request $request, $id)
+        {
+            $order = Order::findOrFail($request->id);
+            $order->delivery_status_of_orders = "تم النوصيل";
+            $order->save();
+            return redirect()->back()->with('delete successfully');
+        }*/
 }

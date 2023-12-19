@@ -22,7 +22,7 @@ class HomepageController extends Controller
         $newly = Book::where('status', 1)->latest('id')->take(10)->get();
         $sliders = Slider::where('status', 1)->get();
         $banners = Banner::where('status', 1)->get();
-        $bestseller = Book::where('stock', 1)->where('status', 1)->get();
+        $bestseller = Book::where('stock','!=', null)->where('status', 1)->get();
         return view('frontend.home.index', compact('banners', 'sliders', 'offers', 'newly', 'bestseller'));
     }
 
@@ -31,6 +31,7 @@ class HomepageController extends Controller
         $books = Book::where('status', 1)->where('category_id', Crypt::decrypt($encryptedId))->paginate(8);
         return view('frontend.shop.index', compact('books'));
     }
+
     public function showAllBooks()
     {
         $books = Book::where('status', 1)->paginate(8);
