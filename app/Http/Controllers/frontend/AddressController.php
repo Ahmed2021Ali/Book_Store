@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\checkout\StoreCheckRequest;
 use App\Http\Requests\UpdateAddressRequest;
 use App\Models\Address;
-use App\Models\Order;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AddressController extends Controller
@@ -15,23 +13,24 @@ class AddressController extends Controller
 
     public function create()
     {
-        return view('frontend.address.add_address');
+        return view('frontend.address.store');
     }
 
     public function store(StoreCheckRequest $request)
     {
-        $number_order = rand(10000, 99999);
-        Address::create([
-            'user_id' => Auth::user()->id,
-            'number_order' => $number_order,
-            ...$request->except('_token')
-        ]);
+        storeMethod($request,'Address',null);
         return redirect()->route('order.create');
+    }
+
+    public function show($page)
+    {
+        $addresses = Address::where('user_id', Auth::user()->id)->get();
+        return view('frontend.address.show', compact('addresses'));
     }
 
     public function edit(Address $address)
     {
-        return view('frontend.address.edit_address', compact('address'));
+        return view('frontend.address.edit', compact('address'));
     }
 
     public function update(UpdateAddressRequest $request, Address $address)
@@ -42,7 +41,7 @@ class AddressController extends Controller
 
     public function destroy(Address $address)
     {
-        deleteMethod($address,null);
-        return redirect()->route('order.create');
+        deleteMethod($address, null);
+        return redirect()->back();
     }
 }

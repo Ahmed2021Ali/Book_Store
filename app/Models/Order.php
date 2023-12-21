@@ -10,8 +10,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
-    use HasFactory,SoftDeletes;
-    protected $table='orders';
+    use HasFactory, SoftDeletes;
+
+    protected $table = 'orders';
 
     protected $fillable = [
         'address_id',
@@ -23,12 +24,15 @@ class Order extends Model
         'price_after_offer',
         'total_price',
         'status_payment',
-        'delivery_status_of_orders'
+        'delivery_status_of_orders',
+        'order_number'
     ];
+
     public function address()
     {
         return $this->belongsTo(Address::class);
     }
+
     public function book()
     {
         return $this->belongsTo(Book::class);

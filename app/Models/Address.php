@@ -20,7 +20,6 @@ class Address extends Model
         'email',
         'note',
         'user_id',
-        'number_order'
     ];
 
     protected $with = ['book', 'user'];
@@ -37,6 +36,6 @@ class Address extends Model
 
     public function order()
     {
-        return $this->hasMany(Order::class);
+        return $this->hasOne(Order::class);
     }
 }

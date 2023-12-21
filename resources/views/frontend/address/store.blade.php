@@ -95,6 +95,7 @@
                     <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
+                <input class="hidden" type="hidden" id="lname" name="user_id" value="{{auth()->user()->id}}" />
                 <button class="primary-button w-100 py-2">تاكيد الطلب</button>
             </form>
         </div>

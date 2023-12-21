@@ -14,24 +14,19 @@ use App\Events\PaidSuccess;
 
 class PaypalController extends Controller
 {
-    public function payment()
+    public function payment($address)
     {
         $user_id = auth()->user()->id;
-
-        $orders = Card::where('user_id', $user_id)->where('status','penning')->get();
-
+        $orders = Card::where('user_id', $user_id)->where('status', 'penning')->get();
         $items = [];
         $totalAmount = 0;
-
-        foreach ($orders as $order)
-        {
+        foreach ($orders as $order) {
             $item = [
                 'name' => $order->book->title,
                 'des' => $order->book->description,
                 'quantity' => $order->quantity,
                 'price' => $order->total_price,
             ];
-
             $items[] = $item;
             $totalAmount += $order->total_price;
         }
@@ -41,13 +36,12 @@ class PaypalController extends Controller
         $data['items'] = $items;
         $data['invoice_id'] = ++$invoiceId;
         $data['invoice_description'] = "Order {$data['invoice_id']} Invoice";
-        $data['return_url'] = 'http://127.0.0.1:8000/HomePage/payment/success';
-        $data['cancel_url'] = 'http://127.0.0.1:8000/HomePage/payment/cancel';
+        $data['return_url'] = route('payment.success', $address);
+        $data['cancel_url'] = route('payment.cancel');
         $data['total'] = $totalAmount;
-       $provider = new ExpressCheckout;
+        $provider = new ExpressCheckout;
         $response = $provider->setExpressCheckout($data, true);
         return redirect($response['paypal_link']);
-
     }
 
 
@@ -58,19 +52,14 @@ class PaypalController extends Controller
         ]);
     }
 
-
-    public function success(Request $request)
+    public function success(Request $request, $address)
     {
         $provider = new ExpressCheckout;
         $response = $provider->getExpressCheckoutDetails($request->token);
-
-        if (in_array(strtoupper($response['ACK']) , ['SUCCESS' , 'SUCCESSWITHWARNING']))
-        {
-            return redirect()->route('order.store','تم الدفع بالفيزا');
-
+        if (in_array(strtoupper($response['ACK']), ['SUCCESS', 'SUCCESSWITHWARNING'])) {
+            $order_number = storeOrder('تم الدفع_استخدام_باي_بال', $address);
+            return redirect()->route('order.details', $order_number);
         }
-
-        return response()->json('Payment cancelled' , '402');
-
+        return response()->json('Payment cancelled', '402');
     }
 }

@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('city');
             $table->string('address');
             $table->string('phone');
-            $table->string('number_order');
             $table->string('email');
             $table->string('note')->nullable();
             $table->unsignedBigInteger('user_id');

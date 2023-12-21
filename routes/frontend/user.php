@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\frontend\AddressController;
 use App\Http\Controllers\frontend\CardController;
 use App\Http\Controllers\frontend\FavController;
 use App\Http\Controllers\frontend\HomepageController;
@@ -32,10 +33,9 @@ Route::middleware(['auth'])->prefix('HomePage')->group(function () {
     });
 
     Route::controller(OrderController::class)->prefix('order')->as('order.')->group(function () {
-        Route::post('status/payment', 'statusPayment')->name('status.payment');
+        Route::post('status/payment', 'paymentMethod')->name('payment.method');
         Route::get('create', 'create')->name('create');
-        Route::get('details/{address_id}', 'detailsOrder')->name('details');
-        Route::get('oder/store{status}', 'store')->name('store');
+        Route::get('details/{order_number}', 'detailsOrder')->name('details');
         Route::get('user/show', 'showOrderUser')->name('show');
         Route::delete('delete/{order}', 'deleteOrder')->name('delete');
         Route::view('search/page', 'frontend.track-order.index')->name('search.page');
@@ -50,12 +50,12 @@ Route::middleware(['auth'])->prefix('HomePage')->group(function () {
     });
 
     Route::controller(PaypalController::class)->prefix('payment')->as('payment.')->group(function () {
-        Route::get('/', 'payment')->name('index');
+        Route::get('/{address}', 'payment')->name('index');
         Route::get('/cancel', 'cancel')->name('cancel');
-        Route::get('/success', 'success')->name('success');
+        Route::get('/success/{address}', 'success')->name('success');
     });
 
-    Route::resource('/address', \App\Http\Controllers\frontend\AddressController::class)->except('show', 'index');
+    Route::resource('/address', AddressController::class)->except( 'index');
 });
 
 

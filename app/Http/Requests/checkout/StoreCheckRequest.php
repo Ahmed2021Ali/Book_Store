@@ -20,7 +20,8 @@ class StoreCheckRequest extends FormRequest
             'city'=>['required','string','max:256','min:2'],
             'phone' => ['required'],
             'address' => ['required','string', 'max:255'],
-            'email' => ['required','email']
+            'email' => ['required','email'],
+            'user_id' => ['required']
         ];
     }
 }

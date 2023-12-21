@@ -4,72 +4,43 @@ namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\order\StoreSearchRequest;
-use App\Jobs\SendMails;
+use App\Http\Requests\PaymentMethodRequest;
 use App\Models\Address;
-use App\Models\Book;
 use App\Models\Card;
 use App\Models\Order;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
     public function create()
     {
-        $order = Card::where('user_id', Auth::user()->id)->where('status', 'penning')->get();
+        $order = Card::where('user_id', Auth::user()->id)->where('status', 0)->get();
         $addresses = Address::where('user_id', Auth::user()->id)->get();
         return view('frontend.checkout.index', compact('order', 'addresses'));
     }
 
-    public function store($statusPayment)
+    public function paymentMethod(PaymentMethodRequest $request)
     {
-        $cardProducts = Card::where('user_id', Auth::user()->id)->where('status', 'penning')->get();
-        foreach ($cardProducts as $cardProduct) {
-            $data['address_id'] = session()->get('address_id');
-            $data['user_id'] = Auth::user()->id;
-            $data['book_id'] = $cardProduct->book_id;
-            $data['quantity'] = $cardProduct->quantity;
-            $data['price'] = $cardProduct->book->price;
-            $data['offer'] = $cardProduct->book->offer;
-            $data['status_payment'] = $statusPayment;
-            $data['price_after_offer'] = $cardProduct->book->offer ? $cardProduct->book->price_after_offer : null;
-            $data['total_price'] = ($data['offer'] ? $data['price_after_offer'] : $data['price']) * $data['quantity'];
-            Order::create($data);
-            Book::where('id', $cardProduct->book_id)->update([
-                'quantity' => ($cardProduct->book->quantity) - ($cardProduct->quantity),
-                'stock' => 1 + $cardProduct->book->stock,
-            ]);
-        }
-        /* status -> 0 => book has existed in card but status->1 =>book has buy and exist in order  */
-        Card::where('user_id', Auth::user()->id)->where('status', 0)->update(['status' => 1]);
-        /*        Order::where('order_id', Auth::user()->id)->chunk(20, function ($data) {
-                    dispatch(new SendMails($data));
-                });*/
-        return redirect()->route('order.details', session()->get('address_id'))->with(['success' => 'الدفع تم بنجاح , شكرا لك و لقد تلقنيا الطلب و سوف يتم توصيله لك في الموعد المحدد ']);
-    }
-
-    public function statusPayment(Request $request)
-    {
-        session()->put('address_id', $request->address_id);
-        if ($request->statusPayment == "الدفع_عند_الاستلام") {
-            return redirect()->route('order.store', $request->statusPayment);
-        } else {
-            return redirect()->route('payment.index');
+        $dataValidated = $request->validated();
+        if ($dataValidated['paymentMethod'] === 'الدفع_استخدام_باي_بال') {
+            return redirect()->route('payment.index', $dataValidated['address']);
+        } elseif ($dataValidated['paymentMethod'] === 'الدفع_عند_الاستلام') {
+            $order_number = storeOrder($dataValidated['paymentMethod'], $dataValidated['address']);
+            return redirect()->route('order.details', $order_number);
         }
     }
 
-    public function detailsOrder($address_id)
+    public function detailsOrder($order_number)
     {
         return view('frontend.order-recieved.index', [
-            'orders' => Order::where('address_id', $address_id)->get(),
-            'address' => Address::where('id', $address_id)->first()
-        ]);
+            'orders' => Order::where('order_number', $order_number)->get(),
+            'address' => Order::where('order_number', $order_number)->first()->address
+        ])->with(['success' => 'الدفع تم بنجاح , شكرا لك و لقد تلقنيا الطلب و سوف يتم توصيله لك في الموعد المحدد ']);
     }
 
     public function showOrderUser()
     {
-        $orders = Order::where('user_id', Auth::user()->id)->get();
-        return view('frontend.order.index', compact('orders'));
+        return view('frontend.order.index',['orders' => Order::where('user_id', Auth::user()->id)->get()]);
     }
 
     public function deleteOrder(Order $order)
@@ -81,9 +52,9 @@ class OrderController extends Controller
     public function searchOrder(StoreSearchRequest $request)
     {
         $dataValidated = $request->validated();
-        $address = Address::where('number_order', $dataValidated['number_order'])->where('email', $dataValidated['email'])->first();
-        if ($address) {
-            $orders = Order::where('address_id', $address->id)->get();
+        $orders = Order::where('number_order', $dataValidated['number_order'])->get();
+        $address = Order::where('number_order', $dataValidated['number_order'])->first()->address;
+        if ($orders && $dataValidated['email'] === $address->email) {
             return view('frontend.order-details.index', compact('address', 'orders'));
         } else {
             return redirect()->back()->with('error', 'خطا في ادخال البيانات');
@@ -95,11 +66,4 @@ class OrderController extends Controller
         return view('backend.order.index', ['orders' => Order::paginate(10)]);
     }
 
-    /*    public function delete_order_for_admin(Request $request, $id)
-        {
-            $order = Order::findOrFail($request->id);
-            $order->delivery_status_of_orders = "تم النوصيل";
-            $order->save();
-            return redirect()->back()->with('delete successfully');
-        }*/
 }

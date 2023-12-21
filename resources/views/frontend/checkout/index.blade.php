@@ -19,39 +19,34 @@
         <div class="card-group">
             @if($addresses)
                 @foreach($addresses as $address)
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">{{$address->city}}</h5>
-                            <p class="card-text">{{$address->address}}</p>
-                            <p class="card-text">{{$address->phone}}</p>
-                            <p class="card-text"><small
-                                    class="text-muted">{{$address->created_at->diffForHumans(null, false, false)}}</small>
-                            </p>
-                            <a href="{{route('address.edit',$address)}}" class="btn btn-info">تعديل العنوان </a>
-                            <form action="{{route('address.destroy',$address)}}" method="post">
-                                @method('delete')
-                                @csrf
-                                <a class="btn btn-danger">حذف العنوان</a>
-                            </form>
+                    <div class="card-body">
+                        <div class="card-body text-center">
+                            <h4 class="card-title">{{$address->city}}</h4>
+                            <h6 class="card-text">{{$address->address}}</h6>
+                            <h6 class="card-text">{{$address->phone}}</h6>
+                            <h6 class="card-text"><small class="text-muted">{{$address->created_at->diffForHumans(null, false, false)}}</small>
+                            </h6>
+                            <a href="{{route('address.edit',$address)}}" class="btn btn-info">تعديل  العنوان</a>
                         </div>
                     </div>
                 @endforeach
             @endif
         </div>
 
+
         <section class="section-container my-5 py-5 d-lg-flex">
             <div class="checkout__order-details-cont w-50 px-3">
 
-                <form class="checkout__form" action="{{ route('order.status.payment') }}" method="post">
+                <form class="checkout__form" action="{{ route('order.payment.method') }}" method="post">
                     @csrf
 
                     <div class="mb-3">
                         <label for="status" style="color:blue"> اختار طريقة الدفع <span
                                 class="required">*</span></label>
-                        <select name="statusPayment" id="status" class="form-control" required>
+                        <select name="paymentMethod" id="status" class="form-control" required>
                             <option style="display: none" value=""> اختار طريقة الدفع</option>
                             <option value="الدفع_عند_الاستلام"> الدفع عند الاستلام طلبك</option>
-                            <option value="الدفع_استخدام_الفيزا"> باستخدام باي بال </option>
+                            <option value="الدفع_استخدام_باي_بال"> باستخدام باي بال</option>
                             @error('status')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
@@ -60,11 +55,11 @@
                     <div class="mb-3">
                         <label for="status" style="color:blue"> اختار عنوان التوصيل <span
                                 class="required">*</span></label>
-                        <select name="address_id" id="address" class="form-control" required>
+                        <select name="address" id="address" class="form-control" required>
                             <option style="display: none" value=""> اختار عنوان التوصيل</option>
                             @if($addresses)
                                 @foreach($addresses as $address)
-                                    <option value="{{$address->id}}">{{$address->city." ".$address->address}} </option>
+                                    <option value="{{$address->id}}">{{$address->city." - ".$address->address}} </option>
                                 @endforeach
                             @endif
                             @error('address')

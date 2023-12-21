@@ -17,9 +17,18 @@
             <a class="py-2 px-3 text-black text-decoration-none" href="{{ route('fav.show') }}">المفضلة</a>
         </li>
         <li class="profile__tab">
+            <a class="py-2 px-3 text-black text-decoration-none" href="{{ route('address.show','user') }}">عنوان
+                التوصيل</a>
+        </li>
+        <li class="profile__tab">
+            <a class="py-2 px-3 text-black text-decoration-none" href="{{route('address.create')}}">اضافة عنوان توصيل
+                </a>
+        </li>
+
+            <li class="profile__tab">
             <form action="{{ route('logout') }}" method="POST" class="nav__link nav__user-link">
                 @csrf
-                <button class="btn btn-light" type="submit">تسجيل الخروج </button>
+                <button class="btn btn-light" type="submit">تسجيل الخروج</button>
             </form>
         </li>
     </ul>
